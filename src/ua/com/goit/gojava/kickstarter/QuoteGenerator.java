@@ -6,7 +6,7 @@ import java.util.Random;
  * Created by alex on 25.12.15.
  */
 public class QuoteGenerator {
-        protected final String nextQuote() {
+         String nextQuote() {
             String[] strings = new String[]{
                     " In the end, it's not going to matter how many breaths you took, " +
                             "but how many moments took your breath away",
