@@ -1,5 +1,7 @@
 package ua.com.goit.gojava.kickstarter;
 
+import java.util.Random;
+
 /**
  * Created by alex on 25.12.15.
  */
@@ -29,6 +31,7 @@ public class Kickstarter {
                         "porch swing with, never say a word, and then walk away\n" +
                         "feeling like it was the best conversation you've ever had",
         };
-        System.out.println("Everyone is creator!");
+        int index = new Random().nextInt(strings.length-1);
+        System.out.println(strings[index]);
     }
 }
