@@ -12,6 +12,12 @@ public class Kickstarter {
     }
 
     private void run() {
+
+
+        System.out.println(nextQuote());
+    }
+
+    private String nextQuote() {
         String[] strings = new String[]{
                 " In the end, it's not going to matter how many breaths you took, " +
                         "but how many moments took your breath away",
@@ -31,7 +37,7 @@ public class Kickstarter {
                         "porch swing with, never say a word, and then walk away\n" +
                         "feeling like it was the best conversation you've ever had",
         };
-        int index = new Random().nextInt(strings.length-1);
-        System.out.println(strings[index]);
+        int index = new Random().nextInt(strings.length);
+        return strings[index];
     }
 }
