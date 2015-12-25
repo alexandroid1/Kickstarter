@@ -5,7 +5,6 @@ package ua.com.goit.gojava.kickstarter;
  */
 public class Category {
 
-
     private String name;
 
     public Category(String name) {
