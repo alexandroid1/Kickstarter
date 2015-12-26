@@ -1,11 +1,18 @@
 package ua.com.goit.gojava.kickstarter;
 
+import java.util.Arrays;
 import java.util.Locale;
 
 /**
  * Created by alex on 25.12.15.
  */
 public class Kickstarter{
+    private Categories categories;
+
+    public Kickstarter(Categories categories) {
+        this.categories = categories;
+    }
+
     public static void main(String[] args) {
         Category category1 = new Category("Photo");
         Category category2 = new Category("Video");
@@ -16,13 +23,17 @@ public class Kickstarter{
         categories.add(category2);
         categories.add(category3);
 
-        Kickstarter application = new Kickstarter();
+
+
+        Kickstarter application = new Kickstarter(categories);
         application.run();
     }
 
     private void run() {
         QuoteGenerator generator = new QuoteGenerator();
         System.out.println(generator.nextQuote());
+
+        System.out.println(Arrays.toString(categories.getCategories()));
     }
 
 }
