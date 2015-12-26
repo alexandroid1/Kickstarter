@@ -33,6 +33,8 @@ public class Kickstarter{
         QuoteGenerator generator = new QuoteGenerator();
         System.out.println(generator.nextQuote());
 
+        System.out.println();
+        System.out.println("Choose category:");
         System.out.println(Arrays.toString(categories.getCategories()));
     }
 
