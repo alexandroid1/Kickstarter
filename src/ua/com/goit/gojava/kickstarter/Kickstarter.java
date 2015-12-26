@@ -27,7 +27,10 @@ public class Kickstarter{
         categories.add(category3);
 
         Project project1 = new Project("film about java EE code", 100000, 15);
-        Project project2 = new Project("film GoJava7", 20000, 30);
+        Project project2 = new Project("film GoJava7", 2345, 10);
+
+        project1.setCategory(category3);
+        project2.setCategory(category3);
 
         Projects projects = new Projects();
         Projects.add(project1);
