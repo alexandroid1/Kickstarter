@@ -26,20 +26,23 @@ public class Kickstarter{
         categories.add(category2);
         categories.add(category3);
 
-        Project project1 = new Project("film about java EE code", 100000, 15);
-        Project project2 = new Project("film GoJava7", 2345, 10);
+        Project project1 = new Project("film about java EE code",
+                100000, 15,
+                "How to do right code");
 
-        project1.setCategory(category3);
-        project2.setCategory(category3);
+        Project project2 = new Project("film GoJava7",
+                2345, 10,
+                "Learning to write clean code with GoIT");
+
+        project1.setCategory(category2);
+        project2.setCategory(category2);
 
         Projects projects = new Projects();
         Projects.add(project1);
         Projects.add(project2);
 
-
         Kickstarter application = new Kickstarter(categories, projects);
         application.run();
-
     }
 
     private void run() {
@@ -52,8 +55,20 @@ public class Kickstarter{
 
         Scanner scanner = new Scanner(System.in);
         int categoryIndex = scanner.nextInt();
-        String categoryName = categories.getName(categoryIndex);
-        System.out.println("You choosed category:" + categoryName);
-    }
+        Category category = categories.getName(categoryIndex);
+        System.out.println("You chosen category:" + category.getName());
 
+        Project[] foundProjects = this.projects.getProjects(category);
+
+        System.out.println("----------------");
+
+        for (Project project : foundProjects){
+            System.out.println(project.getName());
+            System.out.println(project.getDescription());
+            System.out.println("Need money : " + project.getAmount());
+            System.out.println("Already have money: " + project.getExist());
+            System.out.println("Days to get money : " + project.getDays());
+            System.out.println("----------------");
+        }
+    }
 }

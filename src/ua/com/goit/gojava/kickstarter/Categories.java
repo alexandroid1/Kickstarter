@@ -21,7 +21,7 @@ public class Categories {
         return result;
     }
 
-    public String getName(int index) {
-        return categories[index].getName();
+    public Category getName(int index) {
+        return categories[index];
     }
 }
