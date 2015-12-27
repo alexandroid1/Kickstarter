@@ -6,7 +6,7 @@ import java.util.Scanner;
 /**
  * Created by alex on 25.12.15.
  */
-public class Kickstarter{
+public class Kickstarter {
     private Projects projects;
     private Categories categories;
 
@@ -49,26 +49,30 @@ public class Kickstarter{
         QuoteGenerator generator = new QuoteGenerator();
         System.out.println(generator.nextQuote());
 
-        System.out.println();
-        System.out.println("Choose category:");
-        System.out.println(Arrays.toString(categories.getCategories()));
+        while (true) {
 
-        Scanner scanner = new Scanner(System.in);
-        int categoryIndex = scanner.nextInt();
-        Category category = categories.getName(categoryIndex);
-        System.out.println("You chosen category:" + category.getName());
 
-        Project[] foundProjects = this.projects.getProjects(category);
+            System.out.println();
+            System.out.println("Choose category:");
+            System.out.println(Arrays.toString(categories.getCategories()));
 
-        System.out.println("----------------");
+            Scanner scanner = new Scanner(System.in);
+            int categoryIndex = scanner.nextInt();
+            Category category = categories.getName(categoryIndex);
+            System.out.println("You chosen category:" + category.getName());
 
-        for (Project project : foundProjects){
-            System.out.println(project.getName());
-            System.out.println(project.getDescription());
-            System.out.println("Need money : " + project.getAmount());
-            System.out.println("Already have money: " + project.getExist());
-            System.out.println("Days to get money : " + project.getDays());
+            Project[] foundProjects = this.projects.getProjects(category);
+
             System.out.println("----------------");
+
+            for (Project project : foundProjects) {
+                System.out.println(project.getName());
+                System.out.println(project.getDescription());
+                System.out.println("Need money : " + project.getAmount());
+                System.out.println("Already have money: " + project.getExist() + "$");
+                System.out.println("Days to get money : " + project.getDays());
+                System.out.println("----------------");
+            }
         }
     }
 }
