@@ -28,4 +28,8 @@ public class Projects {
 
         return result2;
     }
+
+    public Project get(int index) {
+        return projects[index];
+    }
 }

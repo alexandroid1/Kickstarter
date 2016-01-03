@@ -20,22 +20,49 @@ public class Kickstarter {
         System.out.println(generator.nextQuote());
 
         while (true) {
-
             askCategory();
             int categoryIndex = selectMenu();
             Category category = chooseCategory(categoryIndex);
 
             printProjects(category);
 
-/*            while (true){
+            while (true){
+                askProject();
+                int projectIndex = selectMenu();
+                Project project = chooseProject(projectIndex);
 
-            }*/
+                printProjectDetails(project);
+
+            }
         }
     }
 
+    private void askProject() {
+        System.out.println();
+        System.out.println("Choose project:");
+       // System.out.println(Arrays.toString(categories.getCategories()));
+    }
+
+    private void printProjectDetails(Project project) {
+        System.out.println("project: ");
+        System.out.println(project.getHistory());
+        System.out.println(project.getDemoVideo());
+        System.out.println(project.getQuestionAnswers());
+
+    }
+
+    private Project chooseProject(int projectIndex) {
+        Project project = projects.get(projectIndex);
+        System.out.println("You chosen project:" + project.getName());
+        System.out.println("----------------");
+        return project;
+    }
+
     private void printProjects(Category category) {
-        Project[] foundProjects = this.projects.getProjects(category);
-        for (Project project : foundProjects) {
+        Project[] foundProjects = projects.getProjects(category);
+        for (int index =0; index<foundProjects.length; index++) {
+            Project project = foundProjects[index];
+            System.out.print(index + " - ");
             printProjects(project);
         }
     }
@@ -56,7 +83,7 @@ public class Kickstarter {
     }
 
     private Category chooseCategory(int categoryIndex) {
-        Category category = categories.getName(categoryIndex);
+        Category category = categories.get(categoryIndex);
         System.out.println("You chosen category:" + category.getName());
         System.out.println("----------------");
         return category;
