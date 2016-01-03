@@ -40,9 +40,7 @@ public class Kickstarter {
     }
 
     private void askProject() {
-        System.out.println();
         System.out.println("Choose project:");
-       // System.out.println(Arrays.toString(categories.getCategories()));
     }
 
     private void printProjectDetails(Project project) {
@@ -50,6 +48,7 @@ public class Kickstarter {
         System.out.println(project.getHistory());
         System.out.println(project.getDemoVideo());
         System.out.println(project.getQuestionAnswers());
+        System.out.println("----------------");
 
     }
 
