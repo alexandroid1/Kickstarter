@@ -30,11 +30,17 @@ public class Kickstarter {
             while (true){
                 askProject();
                 int projectIndex = selectMenu();
+
+                if (projectIndex<0 || foundProjects.length <= projectIndex){
+                    System.out.println("Error index menu " + projectIndex);
+                    continue;
+                }
+
+
                 Project project = foundProjects[projectIndex];
                 chooseProject(project);
 
                 printProjectDetails(project);
-
             }
         }
     }
