@@ -24,12 +24,14 @@ public class Kickstarter {
             int categoryIndex = selectMenu();
             Category category = chooseCategory(categoryIndex);
 
-            printProjects(category);
+            Project[] foundProjects = projects.getProjects(category);
+            printProjects(foundProjects);
 
             while (true){
                 askProject();
                 int projectIndex = selectMenu();
-                Project project = chooseProject(projectIndex);
+                Project project = foundProjects[projectIndex];
+                chooseProject(project);
 
                 printProjectDetails(project);
 
@@ -51,15 +53,12 @@ public class Kickstarter {
 
     }
 
-    private Project chooseProject(int projectIndex) {
-        Project project = projects.get(projectIndex);
+    private void chooseProject(Project project) {
         System.out.println("You chosen project:" + project.getName());
         System.out.println("----------------");
-        return project;
     }
 
-    private void printProjects(Category category) {
-        Project[] foundProjects = projects.getProjects(category);
+    private void printProjects(Project[] foundProjects) {
         for (int index =0; index<foundProjects.length; index++) {
             Project project = foundProjects[index];
             System.out.print(index + " - ");
