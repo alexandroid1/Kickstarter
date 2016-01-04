@@ -12,6 +12,7 @@ public class Project {
     private Category category;
     private String description;
     private int exist;
+    private String history;
 
     public Project(String name, int amount, int days, String description) {
         this.name = name;
@@ -19,6 +20,7 @@ public class Project {
         this.days = days;
         this.description = description;
         this.exist = 0;
+        this.history = null;
     }
 
     public void setCategory(Category category) {
@@ -50,11 +52,11 @@ public class Project {
     }
 
     public String getHistory() {
-        return "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt " +
-                "ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco " +
-                "laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit " +
-                "in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat " +
-                "cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+        return history;
+    }
+
+    public void setHistory(String history) {
+        this.history = history;
     }
 
     public String getDemoVideo() {

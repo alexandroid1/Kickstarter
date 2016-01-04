@@ -15,11 +15,13 @@ public class KickstarterRunner {
             categories.add(category3);
 
             Project project1 = new Project("film about java EE code",
-                    100000, 15,
+                    100000,
+                    15,
                     "How to do right code");
 
             Project project2 = new Project("film GoJava7",
-                    2345, 10,
+                    2345,
+                    10,
                     "Learning to write clean code with GoIT");
 
             project1.setCategory(category2);
@@ -30,6 +32,10 @@ public class KickstarterRunner {
             Projects.add(project2);
 
             Kickstarter application = new Kickstarter(categories, projects);
+
+            project1.setHistory("History of first project - java code history ...");
+            project2.setHistory("History of second project - GoIT history ...");
+
             application.run();
         }
 }
