@@ -32,14 +32,13 @@ public class Kickstarter {
             printProjects(foundProjects);
 
             while (true){
-                askProject();
+                askProject(foundProjects);
                 int projectIndex = selectMenu();
 
                 if (projectIndex<0 || foundProjects.length <= projectIndex){
                     System.out.println("Error index menu " + projectIndex);
                     continue;
                 }
-
 
                 Project project = foundProjects[projectIndex];
                 chooseProject(project);
@@ -49,8 +48,10 @@ public class Kickstarter {
         }
     }
 
-    private void askProject() {
-        System.out.println("Choose project:");
+    private void askProject(Project[] foundProjects) {
+        int from = 0;
+        int to = foundProjects.length -1;
+        System.out.println("Choose project: [" + from + " ... " + to + "]" );
     }
 
     private void printProjectDetails(Project project) {
@@ -85,10 +86,10 @@ public class Kickstarter {
     }
 
     private void askCategory() {
-        System.out.println();
         System.out.println("Choose category:");
         System.out.println(Arrays.toString(categories.getCategories()));
     }
+
 
     private Category chooseCategory(int categoryIndex) {
 
