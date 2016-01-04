@@ -24,6 +24,10 @@ public class Kickstarter {
             int categoryIndex = selectMenu();
             Category category = chooseCategory(categoryIndex);
 
+            if (category == null){
+                continue;
+            }
+
             Project[] foundProjects = projects.getProjects(category);
             printProjects(foundProjects);
 
@@ -87,6 +91,12 @@ public class Kickstarter {
     }
 
     private Category chooseCategory(int categoryIndex) {
+
+        if (categoryIndex<0 || categories.size() <= categoryIndex){
+            System.out.println("Error index menu " + categoryIndex);
+            return null;
+        }
+
         Category category = categories.get(categoryIndex);
         System.out.println("You chosen category:" + category.getName());
         System.out.println("----------------");

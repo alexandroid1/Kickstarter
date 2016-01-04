@@ -24,4 +24,8 @@ public class Categories {
     public Category get(int index) {
         return categories[index];
     }
+
+    public int size() {
+        return count;
+    }
 }
