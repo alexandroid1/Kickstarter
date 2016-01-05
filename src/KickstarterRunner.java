@@ -17,11 +17,13 @@ public class KickstarterRunner {
             Project project1 = new Project("film about java EE code",
                     100000,
                     15,
+                    "https://www.youtube.com/watch?v=YVhS1axhzRs",
                     "How to do right code");
 
             Project project2 = new Project("film GoJava7",
                     2345,
                     10,
+                    "https://www.youtube.com/watch?v=HOndhtfIXSY",
                     "Learning to write clean code with GoIT");
 
             project1.setCategory(category2);

@@ -13,13 +13,15 @@ public class Project {
     private String description;
     private int exist;
     private String history;
+    private String demoVideo;
 
-    public Project(String name, int amount, int days, String description) {
+    public Project(String name, int amount, int days, String demoVideo, String description) {
         this.name = name;
         this.amount = amount;
         this.days = days;
         this.description = description;
         this.exist = 0;
+        this.demoVideo = demoVideo;
         this.history = null;
     }
 
@@ -51,6 +53,10 @@ public class Project {
         return days;
     }
 
+    public void setDemoVideo(String demoVideo) {
+        this.demoVideo = demoVideo;
+    }
+
     public String getHistory() {
         return history;
     }
@@ -60,7 +66,7 @@ public class Project {
     }
 
     public String getDemoVideo() {
-        return "https://www.youtube.com/watch?v=yRIwTeaOy5I";
+        return demoVideo;
     }
 
     public String getQuestionAnswers() {
