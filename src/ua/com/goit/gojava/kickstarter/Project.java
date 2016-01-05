@@ -15,6 +15,8 @@ public class Project {
     private String history;
     private String demoVideo;
 
+    private String questionAnswers;
+
     public Project(String name, int amount, int days, String demoVideo, String description) {
         this.name = name;
         this.amount = amount;
@@ -23,6 +25,7 @@ public class Project {
         this.exist = 0;
         this.demoVideo = demoVideo;
         this.history = null;
+        this.questionAnswers = null;
     }
 
     public void setCategory(Category category) {
@@ -70,7 +73,10 @@ public class Project {
     }
 
     public String getQuestionAnswers() {
-        return "Q: question \n" +
-                "A: answer";
+        return questionAnswers;
+    }
+
+    public void setQuestionAnswers(String questionAnswers) {
+        this.questionAnswers = questionAnswers;
     }
 }
