@@ -94,14 +94,14 @@ public class Kickstarter {
     }
 
 
-    private Category chooseCategory(int categoryIndex) {
+    private Category chooseCategory(int menuIndex) {
 
-        if (categoryIndex<0 || categories.size() <= categoryIndex){
-            System.out.println("Error index menu " + categoryIndex);
+        if ( menuIndex <= 0 || categories.size()  < menuIndex){
+            System.out.println("Error index menu " + menuIndex);
             return null;
         }
 
-        Category category = categories.get(categoryIndex);
+        Category category = categories.get(menuIndex);
         System.out.println("You chosen category:" + category.getName());
         System.out.println("----------------");
         return category;
