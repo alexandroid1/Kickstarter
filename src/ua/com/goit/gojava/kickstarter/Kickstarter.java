@@ -59,9 +59,13 @@ public class Kickstarter {
     }
 
     private void askProject(Project[] foundProjects) {
-        int from = 1;
-        int to = foundProjects.length;
-        System.out.println("Choose project: [" + from + " ... " + to + "] or 0 for exit " );
+        if (foundProjects.length == 0){
+            System.out.println("No any projects in cathegory. Press 0 - for exit ");
+        } else {
+            int from = 1;
+            int to = foundProjects.length;
+            System.out.println("Choose project: [" + from + " ... " + to + "] or 0 for exit " );
+        }
     }
 
     private void printProjectDetails(Project project) {
