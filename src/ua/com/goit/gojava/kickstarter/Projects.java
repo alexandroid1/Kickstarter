@@ -18,7 +18,7 @@ public class Projects {
         int found = 0;
         for (int index = 0; index< count; index++){
             Project project = projects[index];
-            if ( project.getCategory().equals(category)){
+            if (category.equals(project.getCategory())){
                 result[found] = project;
                 found++;
             }
