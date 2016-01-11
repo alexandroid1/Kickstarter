@@ -33,7 +33,7 @@ public class KickstarterRunner {
             Projects.add(project1);
             Projects.add(project2);
 
-            Kickstarter application = new Kickstarter(categories, projects);
+            Kickstarter application = new Kickstarter(categories, projects, new ConsoleIO());
 
             project1.setHistory("History of first project - java code history ...");
             project2.setHistory("History of second project - GoIT history ...");
