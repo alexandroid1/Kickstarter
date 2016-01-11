@@ -23,8 +23,8 @@ public class Kickstarter {
 
         while (true) {
             askCategory();
-            int menu = io.read();
-            Category category = chooseCategory(menu);
+            int categoryMenu = io.read();
+            Category category = chooseCategory(categoryMenu);
             if (category == null){
                 continue;
             }
@@ -43,7 +43,7 @@ public class Kickstarter {
             if (menu == 0) {
                 break;
             }
-            Project project = chooseProject(found);
+            Project project = chooseProject(menu, found);
             if (project == null){
                 continue;
             }
@@ -52,8 +52,7 @@ public class Kickstarter {
         }
     }
 
-    private Project chooseProject(Project[] found) {
-        int menu = io.read();
+    private Project chooseProject(int menu, Project[] found) {
         if (menu <= 0 || found.length < menu){
             println("Error index menu " + menu);
             return null;
