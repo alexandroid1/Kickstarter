@@ -1,5 +1,7 @@
 import ua.com.goit.gojava.kickstarter.*;
 
+import java.util.Random;
+
 /**
  * Created by alex on 28.12.15.
  */
@@ -33,7 +35,10 @@ public class KickstarterRunner {
             Projects.add(project1);
             Projects.add(project2);
 
-            Kickstarter application = new Kickstarter(categories, projects, new ConsoleIO());
+            Kickstarter application = new Kickstarter(categories,
+                    projects,
+                    new ConsoleIO(),
+                    new QuoteGenerator(new Random()));
 
             project1.setHistory("History of first project - java code history ...");
             project2.setHistory("History of second project - GoIT history ...");
