@@ -46,7 +46,6 @@ public class KickstarterRunner {
             project1.setQuestionAnswers("Q: What is the duration of the movie?" +"\n"+
                     "A: 2 hours");
 
-
             application.run();
         }
 }
