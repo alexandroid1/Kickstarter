@@ -1,6 +1,7 @@
 package ua.com.goit.gojava.kickstarter;
 
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by alex on 12.01.16.
@@ -145,5 +147,32 @@ public class KickstarterTest {
                 ", [1 category1]\n" +
                 ", Thanks for using Kickstarter\n" +
                 "]", io.getMessages().toString());
+    }
+
+    @Test
+    public void mockTest(){
+        Categories categories = new Categories();
+        categories.add(new Category("category1"));
+        categories.add(new Category("category2"));
+        Projects projects = new Projects();
+
+        IO io = mock(IO.class);
+        QuoteGenerator generator = mock(QuoteGenerator.class);
+
+        Kickstarter kickstarter = new Kickstarter(categories, projects, io, generator);
+
+        when(generator.nextQuote()).thenReturn("quote");
+        when(io.read()).thenReturn(1, 0, 0);
+
+        kickstarter.run();
+
+        verify(io).print("quote\n");
+        verify(io, times(2)).print("Choose category or 0 for Exit:\n");
+        verify(io, times(2)).print("[1 category1, 2 category2]\n");
+        verify(io).print("You chosen category:category1\n");
+        verify(io).print("----------------\n");
+        verify(io).print("No any projects in cathegory. Press 0 - for exit \n");
+        verify(io).print("Thanks for using Kickstarter\n");
+
     }
 }
