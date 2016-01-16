@@ -1,7 +1,6 @@
 package ua.com.goit.gojava.kickstarter;
 
 import java.util.Arrays;
-import java.util.Random;
 
 /**
  * Created by alex on 25.12.15.
@@ -23,8 +22,13 @@ public class Kickstarter {
 
         println(generator.nextQuote());
 
+        categoryMenu();
+        println("Thanks for using Kickstarter");
+    }
+
+    private void categoryMenu() {
         while (true) {
-            askCategory();
+            askCategories();
             int menu = io.read();
             if (menu == 0) {
                 break;
@@ -37,14 +41,13 @@ public class Kickstarter {
             Project[] found = projects.getProjects(category);
             printProjects(found);
 
-            projectMenu(found);
+            projectsMenu(found);
         }
-        println("Thanks for using Kickstarter");
     }
 
-    private void projectMenu(Project[] found) {
+    private void projectsMenu(Project[] found) {
         while (true){
-            askProject(found);
+            askProjects(found);
             int menu = io.read();
             if (menu == 0) {
                 break;
@@ -55,7 +58,29 @@ public class Kickstarter {
             }
             chooseProject(project);
             printProjectDetails(project);
+
+            projectMenu(project);
         }
+    }
+
+    private void projectMenu(Project project) {
+        while (true){
+            askProject(project);
+            int menu = io.read();
+            if (menu == 0) {
+                break;
+            }
+
+            if (menu == 1) {
+                println("Thank you for what you want to invest in the project");
+            }
+        }
+    }
+
+    private void askProject(Project project) {
+        println("Choose action: \n" +
+                "0 - List of projects; " +
+                "1 - Invest in the project");
     }
 
     private Project chooseProject(int menu, Project[] found) {
@@ -70,7 +95,7 @@ public class Kickstarter {
         io.print(message + "\n");
     }
 
-    private void askProject(Project[] found) {
+    private void askProjects(Project[] found) {
         if (found.length == 0){
             println("No any projects in cathegory. Press 0 - for exit ");
         } else {
@@ -114,7 +139,7 @@ public class Kickstarter {
         println("----------------");
     }
 
-    private void askCategory() {
+    private void askCategories() {
         println("Choose category or 0 for Exit:");
         println(Arrays.toString(categories.getCategories()));
     }

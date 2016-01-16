@@ -113,7 +113,7 @@ public class KickstarterTest {
         project2.setQuestionAnswers("QA");
         project2.setCategory(category);
 
-        FakeIO io = new FakeIO(1, 2, 0, 0, 0);
+        FakeIO io = new FakeIO(1, 2, 0, 0, 0, 0);
         Kickstarter kickstarter = new Kickstarter(categories, projects, io, new StubQuoteGenerator());
         kickstarter.run();
 
@@ -142,11 +142,46 @@ public class KickstarterTest {
                 ", video2\n" +
                 ", QA\n" +
                 ", ----------------\n" +
+                ", Choose action: \n" +
+                "0 - List of projects; 1 - Invest in the project\n" +
                 ", Choose project: [1 ... 2] or 0 for exit \n" +
                 ", Choose category or 0 for Exit:\n" +
                 ", [1 category1]\n" +
                 ", Thanks for using Kickstarter\n" +
                 "]", io.getMessages().toString());
+    }
+
+    @Test
+    public void shouldPrintProjectMenu_whenSelectIt(){
+        Categories categories = new Categories();
+        Category category = new Category("category1");
+        categories.add(category);
+
+        Projects projects = new Projects();
+        Project project = new Project("project1", 100, 1000, "video1", "description1");
+        projects.add(project);
+
+        project.setCategory(category);
+
+        IO io = mock(IO.class);
+        QuoteGenerator generator = mock(QuoteGenerator.class);
+
+        Kickstarter kickstarter = new Kickstarter(categories, projects, io, generator);
+
+        when(generator.nextQuote()).thenReturn("quote");
+        when(io.read()).thenReturn(1, 1, 1, 0, 0, 0);
+
+        kickstarter.run();
+
+ /*       verify(io).print("quote\n");
+        verify(io, times(2)).print("Choose category or 0 for Exit:\n");
+        verify(io, times(2)).print("[1 category1]\n");
+        verify(io).print("You chosen category:category1\n");
+        verify(io).print("----------------\n");*/
+        verify(io, times(2)).print("Choose action: \n" +
+                "0 - List of projects; 1 - Invest in the project\n");
+        verify(io).print("Thank you for what you want to invest in the project\n");
+
     }
 
     @Test
