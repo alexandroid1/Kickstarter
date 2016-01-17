@@ -173,15 +173,9 @@ public class KickstarterTest {
 
         kickstarter.run();
 
- /*       verify(io).print("quote\n");
-        verify(io, times(2)).print("Choose category or 0 for Exit:\n");
-        verify(io, times(2)).print("[1 category1]\n");
-        verify(io).print("You chosen category:category1\n");
-        verify(io).print("----------------\n");*/
         verify(io, times(2)).print("Choose action: \n" +
                 "0 - List of projects; 1 - Invest in the project\n");
         verify(io).print("Thank you for what you want to invest in the project\n");
-
     }
 
     @Test

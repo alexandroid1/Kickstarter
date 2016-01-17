@@ -22,59 +22,76 @@ public class Kickstarter {
 
         println(generator.nextQuote());
 
-        categoryMenu();
+        categoryMenu().run();
         println("Thanks for using Kickstarter");
     }
 
-    private void categoryMenu() {
-        while (true) {
-            askCategories();
-            int menu = io.read();
-            if (menu == 0) {
-                break;
-            }
-            Category category = chooseCategory(menu);
-            if (category == null){
-                continue;
+    private Menu categoryMenu() {
+        return new Menu(io) {
+            @Override
+            Menu nextMenu(Object selected) {
+                Category category = (Category)selected;
+
+                Project[] found = projects.getProjects(category);
+                printProjects(found);
+                return projectsMenu(found);
             }
 
-            Project[] found = projects.getProjects(category);
-            printProjects(found);
+            @Override
+            Object choose(int menu) {
+                return chooseCategory(menu);
+            }
 
-            projectsMenu(found);
-        }
+            @Override
+            void ask() {
+                askCategories();
+            }
+        };
     }
 
-    private void projectsMenu(Project[] found) {
-        while (true){
-            askProjects(found);
-            int menu = io.read();
-            if (menu == 0) {
-                break;
+    private Menu projectsMenu(Project[] found) {
+        return new Menu(io) {
+            @Override
+            Menu nextMenu(Object selected) {
+                Project project =(Project)selected;
+                chooseProject(project);
+                printProjectDetails(project);
+                return projectMenu(project);
             }
-            Project project = chooseProject(menu, found);
-            if (project == null){
-                continue;
-            }
-            chooseProject(project);
-            printProjectDetails(project);
 
-            projectMenu(project);
-        }
+            @Override
+            Object choose(int menu) {
+                return chooseProject(menu, found);
+            }
+
+            @Override
+            void ask() {
+                askProjects(found);
+            }
+        };
     }
 
-    private void projectMenu(Project project) {
-        while (true){
-            askProject(project);
-            int menu = io.read();
-            if (menu == 0) {
-                break;
+    private Menu projectMenu(Project project) {
+        return new Menu(io) {
+            @Override
+            Menu nextMenu(Object selected) {
+                Integer menu = (Integer)selected;
+                if (menu == 1) {
+                    println("Thank you for what you want to invest in the project");
+                }
+                return null;
             }
 
-            if (menu == 1) {
-                println("Thank you for what you want to invest in the project");
+            @Override
+            Object choose(int menu) {
+                return menu;
             }
-        }
+
+            @Override
+            void ask() {
+                askProject(project);
+            }
+        };
     }
 
     private void askProject(Project project) {
