@@ -23,8 +23,8 @@ public class KickstarterTest {
         IO io = new IO() {
 
             @Override
-            public int read() {
-                return 0;
+            public String read() {
+                return "0";
             }
 
             @Override
@@ -38,14 +38,14 @@ public class KickstarterTest {
     class FakeIO implements IO {
 
         private List<String> messages = new LinkedList<>();
-        private List<Integer> input = new LinkedList<>();
+        private List<String> input = new LinkedList<>();
 
-        public FakeIO(Integer... input){
+        public FakeIO(String... input){
             this.input = new LinkedList<>(Arrays.asList(input));
         }
 
         @Override
-        public int read() {
+        public String read() {
             return input.remove(0);
         }
 
@@ -78,7 +78,7 @@ public class KickstarterTest {
         categories.add(new Category("category1"));
         categories.add(new Category("category2"));
         Projects projects = new Projects();
-        FakeIO io = new FakeIO(1, 0, 0);
+        FakeIO io = new FakeIO("1", "0", "0");
         Kickstarter kickstarter = new Kickstarter(categories, projects, io, new StubQuoteGenerator());
         kickstarter.run();
 
@@ -113,7 +113,7 @@ public class KickstarterTest {
         project2.setQuestionAnswers("QA");
         project2.setCategory(category);
 
-        FakeIO io = new FakeIO(1, 2, 0, 0, 0, 0);
+        FakeIO io = new FakeIO("1", "2", "0", "0", "0", "0");
         Kickstarter kickstarter = new Kickstarter(categories, projects, io, new StubQuoteGenerator());
         kickstarter.run();
 
@@ -169,7 +169,7 @@ public class KickstarterTest {
         Kickstarter kickstarter = new Kickstarter(categories, projects, io, generator);
 
         when(generator.nextQuote()).thenReturn("quote");
-        when(io.read()).thenReturn(1, 1, 1, 0, 0, 0);
+        when(io.read()).thenReturn("1", "1", "1", "0", "0", "0");
 
         kickstarter.run();
 
@@ -191,9 +191,9 @@ public class KickstarterTest {
         Kickstarter kickstarter = new Kickstarter(categories, projects, io, generator);
 
         when(generator.nextQuote()).thenReturn("quote");
-        when(io.read()).thenReturn(1, 0, 0);
+        when(io.read()).thenReturn("1", "0", "0");
 
-        kickstarter.run();
+                kickstarter.run();
 
         verify(io).print("quote\n");
         verify(io, times(2)).print("Choose category or 0 for Exit:\n");
