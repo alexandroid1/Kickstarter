@@ -1,6 +1,7 @@
 package ua.com.goit.gojava.kickstarter;
 
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 /**
@@ -202,6 +204,43 @@ public class KickstarterTest {
         verify(io).print("----------------\n");
         verify(io).print("No any projects in cathegory. Press 0 - for exit \n");
         verify(io).print("Thanks for using Kickstarter\n");
+
+    }
+
+    @Test
+    public void shouldIncomeAmountToProject_whenDonate(){
+        int TOTAL = 100;
+
+        Categories categories = new Categories();
+        Category category = new Category("category1");
+        categories.add(category);
+
+        Projects projects = new Projects();
+        Project project = new Project("project1", TOTAL, 1000, "video1", "description1");
+        projects.add(project);
+
+        project.setCategory(category);
+
+        IO io = mock(IO.class);
+        QuoteGenerator generator = mock(QuoteGenerator.class);
+
+        Kickstarter kickstarter = new Kickstarter(categories, projects, io, generator);
+
+        when(generator.nextQuote()).thenReturn("quote");
+        when(io.read()).thenReturn("1", "1", "1", "Alex", "231321321", "25", "0", "0", "0");
+
+        kickstarter.run();
+
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verify(io, times(31)).print(captor.capture());
+        List<String> values = captor.getAllValues();
+        assertTrue(values.contains("Choose action: \n" +
+                "0 - List of projects; 1 - Invest in the project\n"));
+        assertTrue(values.contains("Thank you for what you want to invest in the project\n"));
+        assertTrue(values.contains("enter your name:\n"));
+        assertTrue(values.contains("enter your credit card number:\n"));
+        assertTrue(values.contains("enter the amount of money:\n"));
+        assertTrue(values.toString(), values.contains("Thank you Alex Money amounting to 25 successfully deposited!\n"));
 
     }
 }

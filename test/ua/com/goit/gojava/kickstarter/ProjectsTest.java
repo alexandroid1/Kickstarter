@@ -1,5 +1,6 @@
 package ua.com.goit.gojava.kickstarter;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -70,6 +71,7 @@ public class ProjectsTest {
         assertSame(project3, found[1]);
     }
 
+    @Ignore("Not Ready to Run")
     @Test
     public void shouldGetProject_whenExistsSomeProject(){
 

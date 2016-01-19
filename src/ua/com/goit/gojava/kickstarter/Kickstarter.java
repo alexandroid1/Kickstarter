@@ -71,14 +71,21 @@ public class Kickstarter {
         };
     }
 
-    private Menu projectMenu(Project project) {
+    private Menu projectMenu(final Project project) {
         return new Menu(io) {
             @Override
             Menu nextMenu(Object selected) {
                 Integer menu = (Integer)selected;
                 if (menu == 1) {
                     println("Thank you for what you want to invest in the project");
+                    println("enter your name:");
                     String name = io.read();
+                    println("enter your credit card number:");
+                    String cardNumber = io.read();
+                    println("enter the amount of money:");
+                    int amount = Integer.valueOf(io.read());
+                    println("Thank you " + name + " Money amounting to " + amount + " successfully deposited!");
+                    println("----------------");
                 }
                 return null;
             }
