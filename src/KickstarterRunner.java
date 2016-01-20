@@ -43,7 +43,7 @@ public class KickstarterRunner {
             project1.setHistory("History of first project - java code history ...");
             project2.setHistory("History of second project - GoIT history ...");
 
-            project1.setQuestionAnswers("Q: What is the duration of the movie?" +"\n"+
+            project1.addQuestionAnswer("Q: What is the duration of the movie?" + "\n" +
                     "A: 2 hours");
 
             application.run();

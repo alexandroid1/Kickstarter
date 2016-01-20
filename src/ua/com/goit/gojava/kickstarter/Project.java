@@ -14,8 +14,8 @@ public class Project {
     private int exist;
     private String history;
     private String demoVideo;
-
     private String questionAnswers;
+    private String question;
 
     public Project(String name, int amount, int days, String demoVideo, String description) {
         this.name = name;
@@ -76,11 +76,16 @@ public class Project {
         return questionAnswers;
     }
 
-    public void setQuestionAnswers(String questionAnswers) {
-        this.questionAnswers = questionAnswers;
+    public void addQuestionAnswer(String questionAnswers) {
+        if (this.questionAnswers == null){
+            this.questionAnswers = questionAnswers;
+        } else {
+            this.questionAnswers += "\n" + questionAnswers;
+        }
     }
 
     public void donate(int amount) {
         this.amount -= amount;
     }
+
 }

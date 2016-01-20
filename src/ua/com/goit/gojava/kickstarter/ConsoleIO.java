@@ -10,7 +10,7 @@ public class ConsoleIO implements IO {
     @Override
     public String read() {
         Scanner scanner = new Scanner(System.in);
-        return scanner.next();
+        return scanner.nextLine();
     }
 
     @Override

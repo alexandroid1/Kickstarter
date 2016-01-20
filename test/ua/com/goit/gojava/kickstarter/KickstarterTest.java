@@ -38,7 +38,6 @@ public class KickstarterTest {
 
     @Test
     public void shouldNoCategoriesInProject_whenSelectCategory(){
-
         categories.add(new Category("category1"));
         categories.add(new Category("category2"));
 
@@ -61,7 +60,6 @@ public class KickstarterTest {
 
     @Test
     public void shouldMenuWithProject(){
-
         Category category = new Category("category1");
         categories.add(category);
 
@@ -74,7 +72,7 @@ public class KickstarterTest {
         projects.add(project2);
 
         project2.setHistory("history2");
-        project2.setQuestionAnswers("QA");
+        project2.addQuestionAnswer("QA");
         project2.setCategory(category);
 
         when(io.read()).thenReturn("1", "2", "0", "0", "0", "0");
@@ -118,7 +116,6 @@ public class KickstarterTest {
 
     @Test
     public void shouldPrintProjectMenu_whenSelectIt(){
-
         Category category = new Category("category1");
         categories.add(category);
 
@@ -202,7 +199,6 @@ public class KickstarterTest {
 
     @Test
     public void shouldMyQuestionOnProject_whenAssItOnProjectMenu(){
-
         Category category = new Category("category1");
         categories.add(category);
 
@@ -223,7 +219,24 @@ public class KickstarterTest {
         assertPrinted(values, "Thank you for your question, the authors will soon contact you\n");
 
         assertEquals("When are you going to release the film?", project.getQuestionAnswers());
+    }
 
+    @Test
+    public void shouldAddQuestion_whenAskIt(){
+        Project project = new Project("project1", 100, 1000, "video1", "description1");
+        assertEquals(null, project.getQuestionAnswers());
+
+        project.addQuestionAnswer("question");
+
+        assertEquals("question", project.getQuestionAnswers());
+    }
+
+    @Test
+    public void shouldAddSecondQuestion_whenAskIt(){
+        Project project = new Project("project1", 100, 1000, "video1", "description1");
+        project.addQuestionAnswer("question");
+        project.addQuestionAnswer("answer");
+        assertEquals("question\nanswer", project.getQuestionAnswers());
     }
 
 }

@@ -91,7 +91,7 @@ public class Kickstarter {
                     println("Enter your question:");
                     String question = io.read();
                     println("Thank you for your question, the authors will soon contact you");
-                    project.setQuestionAnswers(question);
+                    project.addQuestionAnswer(question);
                 }
                 return null;
             }
