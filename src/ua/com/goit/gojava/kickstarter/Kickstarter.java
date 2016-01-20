@@ -87,6 +87,11 @@ public class Kickstarter {
                     println("Thank you " + name + " Money amounting to " + amount + " successfully deposited!");
                     println("----------------");
                     project.donate(amount);
+                } else if (menu == 2){
+                    println("Enter your question:");
+                    String question = io.read();
+                    println("Thank you for your question, the authors will soon contact you");
+                    project.setQuestionAnswers(question);
                 }
                 return null;
             }
@@ -106,7 +111,8 @@ public class Kickstarter {
     private void askProject(Project project) {
         println("Choose action: \n" +
                 "0 - List of projects; " +
-                "1 - Invest in the project");
+                "1 - Invest in the project; " +
+                "2 - Ask authors");
     }
 
     private Project chooseProject(int menu, Project[] found) {
@@ -182,5 +188,4 @@ public class Kickstarter {
         println("----------------");
         return category;
     }
-
 }

@@ -3,12 +3,7 @@ package ua.com.goit.gojava.kickstarter;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -113,7 +108,7 @@ public class KickstarterTest {
                 ", QA\n" +
                 ", ----------------\n" +
                 ", Choose action: \n" +
-                "0 - List of projects; 1 - Invest in the project\n" +
+                "0 - List of projects; 1 - Invest in the project; 2 - Ask authors\n" +
                 ", Choose project: [1 ... 2] or 0 for exit \n" +
                 ", Choose category or 0 for Exit:\n" +
                 ", [1 category1]\n" +
@@ -139,7 +134,7 @@ public class KickstarterTest {
 
         List<String> values = assertPrinted(io, 31);
         assertPrinted(values, "Choose action: \n" +
-                "0 - List of projects; 1 - Invest in the project\n");
+                "0 - List of projects; 1 - Invest in the project; 2 - Ask authors\n");
         assertPrinted(values, "Thank you for what you want to invest in the project\n");
     }
 
@@ -183,7 +178,7 @@ public class KickstarterTest {
 
         List<String> values = assertPrinted(io, 31);
         assertPrinted(values, "Choose action: \n" +
-                "0 - List of projects; 1 - Invest in the project\n");
+                "0 - List of projects; 1 - Invest in the project; 2 - Ask authors\n");
         assertPrinted(values, "Thank you for what you want to invest in the project\n");
         assertPrinted(values, "enter your name:\n");
         assertPrinted(values, "enter your credit card number:\n");
@@ -204,4 +199,31 @@ public class KickstarterTest {
         verify(io, times(times)).print(captor.capture());
         return captor.getAllValues();
     }
+
+    @Test
+    public void shouldMyQuestionOnProject_whenAssItOnProjectMenu(){
+
+        Category category = new Category("category1");
+        categories.add(category);
+
+        Project project = new Project("project1", 100, 1000, "video1", "description1");
+        projects.add(project);
+
+        project.setCategory(category);
+
+        when(io.read()).thenReturn("1", "1", "2", "When are you going to release the film?",
+                "0", "0", "0");
+
+        kickstarter.run();
+
+        List<String> values = assertPrinted(io, 27);
+        assertPrinted(values, "Choose action: \n" +
+                "0 - List of projects; 1 - Invest in the project; 2 - Ask authors\n");
+        assertPrinted(values, "Enter your question:\n");
+        assertPrinted(values, "Thank you for your question, the authors will soon contact you\n");
+
+        assertEquals("When are you going to release the film?", project.getQuestionAnswers());
+
+    }
+
 }
