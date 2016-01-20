@@ -86,6 +86,7 @@ public class Kickstarter {
                     int amount = Integer.valueOf(io.read());
                     println("Thank you " + name + " Money amounting to " + amount + " successfully deposited!");
                     println("----------------");
+                    project.donate(amount);
                 }
                 return null;
             }
