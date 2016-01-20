@@ -1,16 +1,15 @@
 package ua.com.goit.gojava.kickstarter;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -18,71 +17,40 @@ import static org.mockito.Mockito.*;
  */
 public class KickstarterTest {
 
+    private QuoteGenerator generator;
+    private IO io;
+    private Categories categories;
+    private Projects projects;
+    private Kickstarter kickstarter;
+
+    @Before
+    public void setup(){
+        generator = mock(QuoteGenerator.class);
+        when(generator.nextQuote()).thenReturn("quote");
+
+        io = mock(IO.class);
+        categories = new Categories();
+        projects = new Projects();
+
+        kickstarter = new Kickstarter(categories, projects, io, generator);
+    }
+
     @Test
-    public void stub_and_dummy(){
-        Categories categories = new Categories();
-        Projects projects = new Projects();
-        IO io = new IO() {
-
-            @Override
-            public String read() {
-                return "0";
-            }
-
-            @Override
-            public void print(String message) {
-            }
-        };
-        Kickstarter kickstarter = new Kickstarter(categories, projects, io, new StubQuoteGenerator());
+    public void shouldExitFromProgram_WhenExitFromCategoriesMenu(){
+        when(io.read()).thenReturn("0");
         kickstarter.run();
     }
 
-    class FakeIO implements IO {
-
-        private List<String> messages = new LinkedList<>();
-        private List<String> input = new LinkedList<>();
-
-        public FakeIO(String... input){
-            this.input = new LinkedList<>(Arrays.asList(input));
-        }
-
-        @Override
-        public String read() {
-            return input.remove(0);
-        }
-
-        @Override
-        public void print(String message) {
-            messages.add(message);
-        }
-
-        public List<String> getMessages() {
-            return messages;
-        }
-    }
-
-    class StubQuoteGenerator extends QuoteGenerator {
-
-        public StubQuoteGenerator() {
-            super(new Random());
-        }
-
-        @Override
-        public String nextQuote(){
-            return "quote";
-        }
-
-    }
-
     @Test
-    public void fake(){
-        Categories categories = new Categories();
+    public void shouldNoCategoriesInProject_whenSelectCategory(){
+
         categories.add(new Category("category1"));
         categories.add(new Category("category2"));
-        Projects projects = new Projects();
-        FakeIO io = new FakeIO("1", "0", "0");
-        Kickstarter kickstarter = new Kickstarter(categories, projects, io, new StubQuoteGenerator());
+
+        when(io.read()).thenReturn("1", "0", "0");
         kickstarter.run();
+
+        List<String> values = assertPrinted(io, 9);
 
         assertEquals("[quote\n" +
                 ", Choose category or 0 for Exit:\n" +
@@ -93,16 +61,15 @@ public class KickstarterTest {
                 ", Choose category or 0 for Exit:\n" +
                 ", [1 category1, 2 category2]\n" +
                 ", Thanks for using Kickstarter\n" +
-                "]", io.getMessages().toString());
+                "]", values.toString());
     }
 
     @Test
     public void shouldMenuWithProject(){
-        Categories categories = new Categories();
+
         Category category = new Category("category1");
         categories.add(category);
 
-        Projects projects = new Projects();
         Project project1 = new Project("project1", 100, 1000, "video1", "description1");
         projects.add(project1);
 
@@ -115,9 +82,10 @@ public class KickstarterTest {
         project2.setQuestionAnswers("QA");
         project2.setCategory(category);
 
-        FakeIO io = new FakeIO("1", "2", "0", "0", "0", "0");
-        Kickstarter kickstarter = new Kickstarter(categories, projects, io, new StubQuoteGenerator());
+        when(io.read()).thenReturn("1", "2", "0", "0", "0", "0");
         kickstarter.run();
+
+        List<String> values = assertPrinted(io, 32);
 
         assertEquals("[quote\n" +
                 ", Choose category or 0 for Exit:\n" +
@@ -150,97 +118,86 @@ public class KickstarterTest {
                 ", Choose category or 0 for Exit:\n" +
                 ", [1 category1]\n" +
                 ", Thanks for using Kickstarter\n" +
-                "]", io.getMessages().toString());
+                "]", values.toString());
     }
 
     @Test
     public void shouldPrintProjectMenu_whenSelectIt(){
-        Categories categories = new Categories();
+
         Category category = new Category("category1");
         categories.add(category);
 
-        Projects projects = new Projects();
         Project project = new Project("project1", 100, 1000, "video1", "description1");
         projects.add(project);
 
         project.setCategory(category);
-
-        IO io = mock(IO.class);
-        QuoteGenerator generator = mock(QuoteGenerator.class);
-
-        Kickstarter kickstarter = new Kickstarter(categories, projects, io, generator);
 
         when(generator.nextQuote()).thenReturn("quote");
         when(io.read()).thenReturn("1", "1", "1", "0", "0", "0");
 
         kickstarter.run();
 
-        verify(io, times(2)).print("Choose action: \n" +
+        List<String> values = assertPrinted(io, 31);
+        assertPrinted(values, "Choose action: \n" +
                 "0 - List of projects; 1 - Invest in the project\n");
-        verify(io).print("Thank you for what you want to invest in the project\n");
+        assertPrinted(values, "Thank you for what you want to invest in the project\n");
     }
 
     @Test
-    public void mockTest(){
-        Categories categories = new Categories();
+    public void shouldCategoryWithoutProjects(){
+
         categories.add(new Category("category1"));
         categories.add(new Category("category2"));
-        Projects projects = new Projects();
 
-        IO io = mock(IO.class);
-        QuoteGenerator generator = mock(QuoteGenerator.class);
-
-        Kickstarter kickstarter = new Kickstarter(categories, projects, io, generator);
-
-        when(generator.nextQuote()).thenReturn("quote");
         when(io.read()).thenReturn("1", "0", "0");
 
-                kickstarter.run();
+        kickstarter.run();
 
-        verify(io).print("quote\n");
-        verify(io, times(2)).print("Choose category or 0 for Exit:\n");
-        verify(io, times(2)).print("[1 category1, 2 category2]\n");
-        verify(io).print("You chosen category:category1\n");
-        verify(io).print("----------------\n");
-        verify(io).print("No any projects in cathegory. Press 0 - for exit \n");
-        verify(io).print("Thanks for using Kickstarter\n");
-
+        List<String> values = assertPrinted(io, 9);
+        assertPrinted(values, "quote\n");
+        assertPrinted(values, "Choose category or 0 for Exit:\n");
+        assertPrinted(values, "[1 category1, 2 category2]\n");
+        assertPrinted(values, "You chosen category:category1\n");
+        assertPrinted(values, "----------------\n");
+        assertPrinted(values, "No any projects in cathegory. Press 0 - for exit \n");
+        assertPrinted(values, "Thanks for using Kickstarter\n");
     }
 
     @Test
     public void shouldIncomeAmountToProject_whenDonate(){
         int TOTAL = 100;
 
-        Categories categories = new Categories();
         Category category = new Category("category1");
         categories.add(category);
 
-        Projects projects = new Projects();
         Project project = new Project("project1", TOTAL, 1000, "video1", "description1");
         projects.add(project);
 
         project.setCategory(category);
 
-        IO io = mock(IO.class);
-        QuoteGenerator generator = mock(QuoteGenerator.class);
-
-        Kickstarter kickstarter = new Kickstarter(categories, projects, io, generator);
-
-        when(generator.nextQuote()).thenReturn("quote");
         when(io.read()).thenReturn("1", "1", "1", "Alex", "231321321", "25", "0", "0", "0");
 
         kickstarter.run();
 
-        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
-        verify(io, times(31)).print(captor.capture());
-        List<String> values = captor.getAllValues();
-        assertTrue(values.contains("Choose action: \n" +
-                "0 - List of projects; 1 - Invest in the project\n"));
-        assertTrue(values.contains("Thank you for what you want to invest in the project\n"));
-        assertTrue(values.contains("enter your name:\n"));
-        assertTrue(values.contains("enter your credit card number:\n"));
-        assertTrue(values.contains("enter the amount of money:\n"));
-        assertTrue(values.toString(), values.contains("Thank you Alex Money amounting to 25 successfully deposited!\n"));
+        List<String> values = assertPrinted(io, 31);
+        assertPrinted(values, "Choose action: \n" +
+                "0 - List of projects; 1 - Invest in the project\n");
+        assertPrinted(values, "Thank you for what you want to invest in the project\n");
+        assertPrinted(values, "enter your name:\n");
+        assertPrinted(values, "enter your credit card number:\n");
+        assertPrinted(values, "enter the amount of money:\n");
+        assertPrinted(values, "Thank you Alex Money amounting to 25 successfully deposited!\n");
 
+    }
+
+    private void assertPrinted(List<String> values, String expected) {
+        assertTrue("Actual data: \n" + values.toString() + "doesn't contain: \n\n" + expected,
+                values.contains(expected));
+    }
+
+    private List<String> assertPrinted(IO io, int times) {
+        ArgumentCaptor<String> captor = ArgumentCaptor.forClass(String.class);
+        verify(io, times(times)).print(captor.capture());
+        return captor.getAllValues();
     }
 }
