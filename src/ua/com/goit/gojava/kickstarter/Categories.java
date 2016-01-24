@@ -1,31 +1,14 @@
 package ua.com.goit.gojava.kickstarter;
 
 /**
- * Created by alex on 25.12.15.
+ * Created by alex on 21.01.16.
  */
-public class Categories {
+public interface Categories {
+    void add(Category category);
 
-    private Category[] categories = new Category[10];
-    private int count = 0;
+    String[] getCategories();
 
-    public void add(Category category) {
-        categories[count] = category;
-        count++;
-    }
+    Category get(int index);
 
-    public String[] getCategories(){
-        String[] result = new String[count];
-        for (int index=0; index<this.count; index ++){
-            result[index] = String.valueOf(index+1) + " " + categories[index].getName();
-        }
-        return result;
-    }
-
-    public Category get(int index) {
-        return categories[index];
-    }
-
-    public int size() {
-        return count;
-    }
+    int size();
 }

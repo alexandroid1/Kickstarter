@@ -11,7 +11,7 @@ public class KickstarterRunner {
             Category category2 = new Category("Video");
             Category category3 = new Category("Music");
 
-            Categories categories = new Categories();
+            Categories categories = new InMemoryCategories();
             categories.add(category1);
             categories.add(category2);
             categories.add(category3);

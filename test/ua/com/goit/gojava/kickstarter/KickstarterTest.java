@@ -1,8 +1,11 @@
 package ua.com.goit.gojava.kickstarter;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+
+import java.io.File;
 import java.util.List;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -12,19 +15,38 @@ import static org.mockito.Mockito.*;
  */
 public class KickstarterTest {
 
+    public static final String CATEGORIES_FILE = "categories.txt";
     private QuoteGenerator generator;
     private IO io;
     private Categories categories;
     private Projects projects;
     private Kickstarter kickstarter;
 
+    @After
+    public void cleanUp(){
+        new File(CATEGORIES_FILE).delete();
+        projects = null;
+        categories = null;
+        io = null;
+        generator = null;
+
+    }
+
+
     @Before
     public void setup(){
+        new File(CATEGORIES_FILE).delete();
+        projects = null;
+        categories = null;
+        io = null;
+        generator = null;
+
+
         generator = mock(QuoteGenerator.class);
         when(generator.nextQuote()).thenReturn("quote");
 
         io = mock(IO.class);
-        categories = new Categories();
+        categories = new InFileCategories(CATEGORIES_FILE);
         projects = new Projects();
 
         kickstarter = new Kickstarter(categories, projects, io, generator);
@@ -129,14 +151,14 @@ public class KickstarterTest {
 
         kickstarter.run();
 
-        List<String> values = assertPrinted(io, 31);
+        List<String> values = assertPrinted(io, 53);
         assertPrinted(values, "Choose action: \n" +
                 "0 - List of projects; 1 - Invest in the project; 2 - Ask authors\n");
         assertPrinted(values, "Thank you for what you want to invest in the project\n");
     }
 
     @Test
-    public void shouldCategoryWithoutProjects(){
+    public void shouldSelectCategoryWithoutProjects(){
 
         categories.add(new Category("category1"));
         categories.add(new Category("category2"));
