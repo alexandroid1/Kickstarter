@@ -37,7 +37,8 @@ public class KickstarterRunner {
 
             Kickstarter application = new Kickstarter(categories,
                     projects,
-                    new ConsoleIO(),
+                    new ValidatorDecoratorIO(new ConsoleIO()) ,
+                   // new LoggerDecoratorIO(new ConsoleIO()),
                     new QuoteGenerator(new Random()));
 
             project1.setHistory("History of first project - java code history ...");
