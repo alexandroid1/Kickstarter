@@ -32,9 +32,13 @@ public class CategoriesDAO implements Categories {
         return new String[0];
     }
 
-    public static void main(String[] args){
-        Category category = new CategoriesDAO().get(1);
+    public static void main(String[] args) {
+        CategoriesDAO categoriesDAO = new CategoriesDAO();
+
+        Category category = categoriesDAO.get(1);
         System.out.println(category.toString());
+
+        System.out.println(categoriesDAO.size());
     }
 
 
@@ -49,16 +53,15 @@ public class CategoriesDAO implements Categories {
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
-            ResultSet rs = statement.executeQuery("select * from Categories WHERE id = " + index);
-            while(rs.next())
-            {
+            ResultSet rs = statement
+                    .executeQuery("select * from Categories WHERE id = " + index);
+
+            while (rs.next()) {
                 category = new Category(rs.getInt("id"), rs.getString("name"));
             }
 
         } catch (SQLException e) {
-            // if the error message is "out of memory",
-            // it probably means no database file is found
-            System.err.println(e.getMessage());
+            throw new RuntimeException("getInt(id) failed: ", e);
         } finally {
             try {
                 if (connection != null) {
@@ -74,6 +77,36 @@ public class CategoriesDAO implements Categories {
 
     @Override
     public int size() {
-        return 0;
+
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:./resources/database.db");
+
+            // create a database connection
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);  // set timeout to 30 sec.
+
+            ResultSet rs = statement.executeQuery("select COUNT(*) AS total FROM Categories");
+
+            if (rs != null) {
+                /*rs.beforeFirst();
+                rs.last();
+                return rs.getRow();*/
+
+                return  rs.getInt("total");  // better impl
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("getInt(id) failed: ", e);
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // connection close failed.
+                System.err.println(e);
+            }
+        }
+        throw new RuntimeException("Some Error");
     }
 }
