@@ -1,10 +1,9 @@
 package ua.com.goit.gojava.kickstarter;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by alex on 27.01.16.
@@ -22,24 +21,87 @@ public class CategoriesDAO implements Categories {
 
     private Connection connection;
 
-    @Override
-    public void add(Category category) {
-
-    }
-
-    @Override
-    public String[] getCategories() {
-        return new String[0];
-    }
-
+    // for testing
     public static void main(String[] args) {
         CategoriesDAO categoriesDAO = new CategoriesDAO();
 
         Category category = categoriesDAO.get(1);
-        System.out.println(category.toString());
 
-        System.out.println(categoriesDAO.size());
+        categoriesDAO.add(new Category("CategoryName3"));
+
+        String[] list = categoriesDAO.getCategories();
+
+
+
+        System.out.println("category.toString() = " + category.toString());
+
+        System.out.println("categoriesDAO.size() = " + categoriesDAO.size());
+
+        System.out.println("list.toString() =  " + Arrays.toString(list));
     }
+
+
+    @Override
+    public void add(Category category) {
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:./resources/database.db");
+
+            String insertTableSQL = "INSERT INTO Categories"
+                    + "(id, name) VALUES"
+                    + "(?,?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(insertTableSQL);
+            preparedStatement.setInt(1, 3);
+            preparedStatement.setString(2, category.getName());
+
+            // execute insert SQL stetement
+            preparedStatement .executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("add(Category category) failed: ", e);
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // connection close failed.
+                System.err.println(e);
+            }
+        }
+    }
+
+    @Override
+    public String[] getCategories() {
+        List<String> result = new LinkedList<>();
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:./resources/database.db");
+
+            // create a database connection
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);  // set timeout to 30 sec.
+
+            ResultSet rs = statement
+                    .executeQuery("select * from Categories");
+
+            while (rs.next()) {
+                result.add(String.valueOf(rs.getInt("id")) + " " + rs.getString("name"));
+            }
+            return result.toArray(new String[result.size()]);
+
+        } catch (SQLException e) {
+            throw new RuntimeException("getInt(id) failed: ", e);
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                // connection close failed.
+                System.err.println(e);
+            }
+        }
+    }
+
 
 
     @Override
@@ -88,10 +150,6 @@ public class CategoriesDAO implements Categories {
             ResultSet rs = statement.executeQuery("select COUNT(*) AS total FROM Categories");
 
             if (rs != null) {
-                /*rs.beforeFirst();
-                rs.last();
-                return rs.getRow();*/
-
                 return  rs.getInt("total");  // better impl
             }
 
