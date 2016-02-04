@@ -3,30 +3,57 @@ package ua.com.goit.gojava.kickstarter.dao;
 import ua.com.goit.gojava.kickstarter.Categories;
 import ua.com.goit.gojava.kickstarter.Category;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.*;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by alex on 27.01.16.
  */
 public class CategoriesDAO implements Categories {
 
-    static {
+/*    static {
         // load the sqlite-JDBC driver using the current class loader
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("something wrong with downloading drivers ", e);
         }
-    }
+    }*/
 
     private Connection connection;
 
+    private ConnectionPool connections;
+
+    public CategoriesDAO() {
+    }
+
+    public CategoriesDAO(ConnectionPool connections) {
+        this.connections = connections;
+    }
+
     // for testing
     public static void main(String[] args) {
-        CategoriesDAO categoriesDAO = new CategoriesDAO();
+
+        FileInputStream fis;
+        Properties property = new Properties();
+
+        try {
+            fis = new FileInputStream("./resources/application.properties");
+            property.load(fis);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ConnectionPool connections = new ConnectionPool(property);
+        CategoriesDAO categoriesDAO = new CategoriesDAO(connections);
 
         Category category = categoriesDAO.get(1);
 
@@ -43,8 +70,23 @@ public class CategoriesDAO implements Categories {
         System.out.println("list.toString() =  " + Arrays.toString(list));
     }
 
-
     @Override
+    public void add(final Category category) {
+        connections.get(new ConnectionRunner<Void>() {
+            @Override
+            public Void run(Connection connection) throws SQLException {
+                String insertTableSQL = "INSERT INTO Categories"
+                        + "(name) VALUES"
+                        + "(?)";
+                PreparedStatement preparedStatement = connection.prepareStatement(insertTableSQL);
+                preparedStatement.setString(1, category.getName());
+                preparedStatement.executeUpdate();
+                return null;
+            }
+        });
+    }
+
+/*    @Override
     public void add(Category category) {
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:./resources/database.db");
@@ -71,7 +113,9 @@ public class CategoriesDAO implements Categories {
                 System.err.println(e);
             }
         }
-    }
+    }*/
+
+
 
     @Override
     public String[] getCategories() {
