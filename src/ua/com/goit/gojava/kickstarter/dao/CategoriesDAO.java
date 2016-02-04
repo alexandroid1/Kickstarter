@@ -17,15 +17,6 @@ import java.util.Properties;
  */
 public class CategoriesDAO implements Categories {
 
-/*    static {
-        // load the sqlite-JDBC driver using the current class loader
-        try {
-            Class.forName("org.sqlite.JDBC");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("something wrong with downloading drivers ", e);
-        }
-    }*/
-
     private Connection connection;
 
     private ConnectionPool connections;
@@ -56,66 +47,27 @@ public class CategoriesDAO implements Categories {
         CategoriesDAO categoriesDAO = new CategoriesDAO(connections);
 
         Category category = categoriesDAO.get(1);
-
         categoriesDAO.add(new Category("CategoryName3"));
-
         String[] list = categoriesDAO.getCategories();
 
 
-
         System.out.println("category.toString() = " + category.toString());
-
         System.out.println("categoriesDAO.size() = " + categoriesDAO.size());
-
         System.out.println("list.toString() =  " + Arrays.toString(list));
     }
 
     @Override
     public void add(final Category category) {
-        connections.get(new ConnectionRunner<Void>() {
-            @Override
-            public Void run(Connection connection) throws SQLException {
-                String insertTableSQL = "INSERT INTO Categories"
-                        + "(name) VALUES"
-                        + "(?)";
-                PreparedStatement preparedStatement = connection.prepareStatement(insertTableSQL);
-                preparedStatement.setString(1, category.getName());
-                preparedStatement.executeUpdate();
-                return null;
-            }
+        connections.get(connection1 -> {
+            String insertTableSQL = "INSERT INTO Categories"
+                    + "(name) VALUES"
+                    + "(?)";
+            PreparedStatement preparedStatement = connection1.prepareStatement(insertTableSQL);
+            preparedStatement.setString(1, category.getName());
+            preparedStatement.executeUpdate();
+            return null;
         });
     }
-
-/*    @Override
-    public void add(Category category) {
-        try {
-            connection = DriverManager.getConnection("jdbc:sqlite:./resources/database.db");
-
-            String insertTableSQL = "INSERT INTO Categories"
-                    + "(id, name) VALUES"
-                    + "(?,?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(insertTableSQL);
-            preparedStatement.setInt(1, 3);
-            preparedStatement.setString(2, category.getName());
-
-            // execute insert SQL stetement
-            preparedStatement .executeUpdate();
-
-        } catch (SQLException e) {
-            throw new RuntimeException("add(Category category) failed: ", e);
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                // connection close failed.
-                System.err.println(e);
-            }
-        }
-    }*/
-
-
 
     @Override
     public String[] getCategories() {

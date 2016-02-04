@@ -24,7 +24,6 @@ public class ConnectionPool {
     public ConnectionPool(Properties properties){
         try {
            connection = DriverManager.getConnection(properties.getProperty("jdbc.url"), properties);
-           // connection = DriverManager.getConnection("jdbc:sqlite:./resources/database.db");
         } catch (SQLException e) {
             throw new RuntimeException("something wrong with getting connection: ", e);
         }
