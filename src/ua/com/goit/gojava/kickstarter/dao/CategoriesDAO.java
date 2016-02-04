@@ -112,10 +112,8 @@ public class CategoriesDAO implements Categories {
     @Override
     public int size() {
 
-        try {
-            connection = DriverManager.getConnection("jdbc:sqlite:./resources/database.db");
+        return connections.get(connection -> {
 
-            // create a database connection
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
@@ -123,20 +121,10 @@ public class CategoriesDAO implements Categories {
 
             if (rs != null) {
                 return  rs.getInt("total");  // better impl
+            } else {
+                throw new RuntimeException("during Execution the Query has appeared error: ");
             }
-
-        } catch (SQLException e) {
-            throw new RuntimeException("getInt(id) failed: ", e);
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                // connection close failed.
-                System.err.println(e);
-            }
-        }
-        throw new RuntimeException("Some Error");
+        });
     }
+
 }
