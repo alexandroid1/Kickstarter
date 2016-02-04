@@ -90,12 +90,11 @@ public class CategoriesDAO implements Categories {
 
     @Override
     public Category get(int index) {
-        Category category = null;
 
-        try {
-            connection = DriverManager.getConnection("jdbc:sqlite:./resources/database.db");
+        return connections.get(connection -> {
 
-            // create a database connection
+            Category category = null;
+
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
@@ -106,19 +105,8 @@ public class CategoriesDAO implements Categories {
                 category = new Category(rs.getInt("id"), rs.getString("name"));
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException("getInt(id) failed: ", e);
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                // connection close failed.
-                System.err.println(e);
-            }
-        }
-        return category;
+            return category;
+        });
     }
 
     @Override
