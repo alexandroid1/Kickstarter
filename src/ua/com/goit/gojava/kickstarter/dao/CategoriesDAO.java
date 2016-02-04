@@ -21,9 +21,6 @@ public class CategoriesDAO implements Categories {
 
     private ConnectionPool connections;
 
-    public CategoriesDAO() {
-    }
-
     public CategoriesDAO(ConnectionPool connections) {
         this.connections = connections;
     }
@@ -71,37 +68,25 @@ public class CategoriesDAO implements Categories {
 
     @Override
     public String[] getCategories() {
-        List<String> result = new LinkedList<>();
-        try {
-            connection = DriverManager.getConnection("jdbc:sqlite:./resources/database.db");
 
-            // create a database connection
+        return connections.get(connection -> {
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec.
+
+            //List<Category> result = new LinkedList<>();
+            List<String> result = new LinkedList<>();
 
             ResultSet rs = statement
                     .executeQuery("select * from Categories");
 
             while (rs.next()) {
                 result.add(String.valueOf(rs.getInt("id")) + " " + rs.getString("name"));
+              //  result.add(new Category(rs.getInt("id"), rs.getString("name")));
             }
+            //return result;
             return result.toArray(new String[result.size()]);
-
-        } catch (SQLException e) {
-            throw new RuntimeException("getInt(id) failed: ", e);
-        } finally {
-            try {
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                // connection close failed.
-                System.err.println(e);
-            }
-        }
+        });
     }
-
-
 
     @Override
     public Category get(int index) {
