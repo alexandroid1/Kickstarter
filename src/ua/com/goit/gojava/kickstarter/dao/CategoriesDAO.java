@@ -1,4 +1,7 @@
-package ua.com.goit.gojava.kickstarter;
+package ua.com.goit.gojava.kickstarter.dao;
+
+import ua.com.goit.gojava.kickstarter.Categories;
+import ua.com.goit.gojava.kickstarter.Category;
 
 import java.sql.*;
 import java.util.Arrays;
