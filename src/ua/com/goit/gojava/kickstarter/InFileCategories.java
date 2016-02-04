@@ -38,19 +38,26 @@ public class InFileCategories implements Categories {
     }
 
     @Override
-    public String[] getCategories() {
+    public List<Category> getCategories() {
         BufferedReader in = null;
         try {
             in = new BufferedReader(new FileReader(file));
-            List<String> result = new LinkedList<>();
+
+            //List<String> result = new LinkedList<>();
+            List<Category> result = new LinkedList<>();
+
             String line = in.readLine();
             int index = 1;
             while (line != null) {
-                result.add(index + " " + line);
+
+                //result.add(index + " " + line);
+                result.add(new Category(index, line));
+
                 line = in.readLine();
                 index++;
             }
-            return result.toArray(new String[result.size()]);
+           // return result.toArray(new String[result.size()]);
+            return result;
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException("We could not read the file ", e);

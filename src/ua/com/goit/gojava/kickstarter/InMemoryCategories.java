@@ -9,7 +9,6 @@ import java.util.List;
 public class InMemoryCategories implements Categories {
 
     private List<Category> data = new LinkedList<>();
-    private int count = 0;
 
     @Override
     public void add(Category category) {
@@ -17,10 +16,10 @@ public class InMemoryCategories implements Categories {
     }
 
     @Override
-    public String[] getCategories(){
-        String[] result = new String[data.size()];
+    public List<Category> getCategories(){
+        List<Category> result = new LinkedList<>();
         for (int index=0; index<data.size(); index ++){
-            result[index] = String.valueOf(index+1) + " " + data.get(index).getName();
+            result.add(new Category(index+1, data.get(index).getName()));
         }
         return result;
     }

@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -26,16 +27,23 @@ public abstract class CategoriesTest {
         list.add(new Category("name1"));
         list.add(new Category("name2"));
 
-        String[] categories = list.getCategories();
+       // String[] categories = list.getCategories();
+        List<Category> categories = list.getCategories();
+
         assertEquals("[1 name1, 2 name2]",
-                Arrays.toString(categories));
+               // Arrays.toString(categories));
+                categories.toString());
     }
 
     @Test
     public void shouldCategoriesList_whenNoCategories() {
-        String[] categories = list.getCategories();
+
+        // String[] categories = list.getCategories();
+        List<Category> categories = list.getCategories();
+
         assertEquals("[]",
-                Arrays.toString(categories));
+                // Arrays.toString(categories));
+                categories.toString());
     }
 
     @Test

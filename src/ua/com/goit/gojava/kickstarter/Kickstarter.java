@@ -173,7 +173,7 @@ public class Kickstarter {
 
     private void askCategories() {
         println("Choose category or 0 for Exit:");
-        println(Arrays.toString(categories.getCategories()));
+        println((categories.getCategories()).toString());
     }
 
 

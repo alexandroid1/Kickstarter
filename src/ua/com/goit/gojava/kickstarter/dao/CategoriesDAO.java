@@ -17,8 +17,6 @@ import java.util.Properties;
  */
 public class CategoriesDAO implements Categories {
 
-    private Connection connection;
-
     private ConnectionPool connections;
 
     public CategoriesDAO(ConnectionPool connections) {
@@ -45,12 +43,13 @@ public class CategoriesDAO implements Categories {
 
         Category category = categoriesDAO.get(1);
         categoriesDAO.add(new Category("CategoryName3"));
-        String[] list = categoriesDAO.getCategories();
+        //String[] list = categoriesDAO.getCategories();
+        List<Category> list = categoriesDAO.getCategories();
 
 
         System.out.println("category.toString() = " + category.toString());
         System.out.println("categoriesDAO.size() = " + categoriesDAO.size());
-        System.out.println("list.toString() =  " + Arrays.toString(list));
+        System.out.println("list.toString() =  " + list.toString());
     }
 
     @Override
@@ -67,24 +66,24 @@ public class CategoriesDAO implements Categories {
     }
 
     @Override
-    public String[] getCategories() {
+    public List<Category> getCategories() {
 
         return connections.get(connection -> {
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
-            //List<Category> result = new LinkedList<>();
-            List<String> result = new LinkedList<>();
+            List<Category> result = new LinkedList<>();
+            //List<String> result = new LinkedList<>();
 
             ResultSet rs = statement
                     .executeQuery("select * from Categories");
 
             while (rs.next()) {
-                result.add(String.valueOf(rs.getInt("id")) + " " + rs.getString("name"));
-              //  result.add(new Category(rs.getInt("id"), rs.getString("name")));
+                //result.add(String.valueOf(rs.getInt("id")) + " " + rs.getString("name"));
+              result.add(new Category(rs.getInt("id"), rs.getString("name")));
             }
-            //return result;
-            return result.toArray(new String[result.size()]);
+            return result;
+            //return result.toArray(new String[result.size()]);
         });
     }
 

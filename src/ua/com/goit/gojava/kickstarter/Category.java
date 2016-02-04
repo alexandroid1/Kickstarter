@@ -41,6 +41,8 @@ public class Category {
 
     @Override
     public String toString() {
-        return String.format("Category [name=%s, id=%s]" ,name, id);
+        return String.format
+                //("Category [name=%s, id=%s]" ,name, id);
+                ("%s %s",id,name);
     }
 }
