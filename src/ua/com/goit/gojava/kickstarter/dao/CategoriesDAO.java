@@ -43,7 +43,6 @@ public class CategoriesDAO implements Categories {
 
         Category category = categoriesDAO.get(1);
         categoriesDAO.add(new Category("CategoryName3"));
-        //String[] list = categoriesDAO.getCategories();
         List<Category> list = categoriesDAO.getCategories();
 
 
@@ -73,17 +72,14 @@ public class CategoriesDAO implements Categories {
             statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
             List<Category> result = new LinkedList<>();
-            //List<String> result = new LinkedList<>();
 
             ResultSet rs = statement
                     .executeQuery("select * from Categories");
 
             while (rs.next()) {
-                //result.add(String.valueOf(rs.getInt("id")) + " " + rs.getString("name"));
               result.add(new Category(rs.getInt("id"), rs.getString("name")));
             }
             return result;
-            //return result.toArray(new String[result.size()]);
         });
     }
 
@@ -95,7 +91,7 @@ public class CategoriesDAO implements Categories {
             Category category = null;
 
             Statement statement = connection.createStatement();
-            statement.setQueryTimeout(30);  // set timeout to 30 sec.
+            statement.setQueryTimeout(30);
 
             ResultSet rs = statement
                     .executeQuery("select * from Categories WHERE id = " + index);
@@ -114,12 +110,12 @@ public class CategoriesDAO implements Categories {
         return connections.get(connection -> {
 
             Statement statement = connection.createStatement();
-            statement.setQueryTimeout(30);  // set timeout to 30 sec.
+            statement.setQueryTimeout(30);
 
             ResultSet rs = statement.executeQuery("select COUNT(*) AS total FROM Categories");
 
             if (rs != null) {
-                return  rs.getInt("total");  // better impl
+                return  rs.getInt("total");
             } else {
                 throw new RuntimeException("during Execution the Query has appeared error: ");
             }

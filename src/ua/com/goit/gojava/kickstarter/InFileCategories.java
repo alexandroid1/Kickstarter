@@ -43,20 +43,17 @@ public class InFileCategories implements Categories {
         try {
             in = new BufferedReader(new FileReader(file));
 
-            //List<String> result = new LinkedList<>();
             List<Category> result = new LinkedList<>();
 
             String line = in.readLine();
             int index = 1;
             while (line != null) {
 
-                //result.add(index + " " + line);
                 result.add(new Category(index, line));
 
                 line = in.readLine();
                 index++;
             }
-           // return result.toArray(new String[result.size()]);
             return result;
 
         } catch (FileNotFoundException e) {
