@@ -33,4 +33,13 @@ public class InMemoryCategories implements Categories {
     public int size() {
         return data.size();
     }
+
+    @Override
+    public boolean exists(int id) {
+        if (data.get(id) != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

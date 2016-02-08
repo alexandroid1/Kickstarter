@@ -122,4 +122,15 @@ public class CategoriesDAO implements Categories {
         });
     }
 
+    @Override
+    public boolean exists(int id) {
+        List<Category> data = new LinkedList<>();
+
+        if (data.get(id) != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }
