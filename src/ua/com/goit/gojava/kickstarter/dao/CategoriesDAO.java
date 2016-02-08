@@ -94,7 +94,7 @@ public class CategoriesDAO implements Categories {
             statement.setQueryTimeout(30);
 
             ResultSet rs = statement
-                    .executeQuery("select * from Categories WHERE id = " + index);
+                    .executeQuery("select * from Categories WHERE id-1 = " + index);
 
             while (rs.next()) {
                 category = new Category(rs.getInt("id"), rs.getString("name"));
