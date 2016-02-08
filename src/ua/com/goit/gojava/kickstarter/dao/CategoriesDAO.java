@@ -53,11 +53,11 @@ public class CategoriesDAO implements Categories {
 
     @Override
     public void add(final Category category) {
-        connections.get(connection1 -> {
+        connections.get(connection -> {
             String insertTableSQL = "INSERT INTO Categories"
                     + "(name) VALUES"
                     + "(?)";
-            PreparedStatement preparedStatement = connection1.prepareStatement(insertTableSQL);
+            PreparedStatement preparedStatement = connection.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, category.getName());
             preparedStatement.executeUpdate();
             return null;
