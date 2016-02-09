@@ -25,10 +25,7 @@ public class CategoriesDAOTest extends CategoriesTest {
     Categories getCategories() {
         Properties properties = new Properties();
         properties.put("jdbc.driverClassName","org.sqlite.JDBC");
-       // properties.put("jdbc.url","jdbc:sqlite:./resources/test-database.db");
         properties.put("jdbc.url","jdbc:sqlite:./bin/test-database.db");
-        //properties.put("user","");
-        //properties.put("password","");
 
         connections = new ConnectionPool(properties);
         ConnectionPool connections = new ConnectionPool(properties);
