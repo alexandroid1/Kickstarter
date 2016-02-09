@@ -22,21 +22,10 @@ public class KickstarterTest {
     private Projects projects;
     private Kickstarter kickstarter;
 
-    @After
-    public void cleanUp(){
-        new File(CATEGORIES_FILE).delete();
-        projects = null;
-        categories = null;
-        io = null;
-        generator = null;
-
-    }
-
-
     @Before
     public void setup(){
         new File(CATEGORIES_FILE).delete();
-        projects = null;
+        projects = new Projects();
         categories = null;
         io = null;
         generator = null;
@@ -50,6 +39,16 @@ public class KickstarterTest {
         projects = new Projects();
 
         kickstarter = new Kickstarter(categories, projects, io, generator);
+    }
+
+    @After
+    public void cleanUp(){
+        new File(CATEGORIES_FILE).delete();
+        projects = null;
+        categories = null;
+        io = null;
+        generator = null;
+
     }
 
     @Test
@@ -195,7 +194,8 @@ public class KickstarterTest {
 
         kickstarter.run();
 
-        List<String> values = assertPrinted(io, 31);
+
+        List<String> values = assertPrinted(io, 60);
         assertPrinted(values, "Choose action: \n" +
                 "0 - List of projects; 1 - Invest in the project; 2 - Ask authors\n");
         assertPrinted(values, "Thank you for what you want to invest in the project\n");
@@ -234,7 +234,7 @@ public class KickstarterTest {
 
         kickstarter.run();
 
-        List<String> values = assertPrinted(io, 27);
+        List<String> values = assertPrinted(io, 41);
         assertPrinted(values, "Choose action: \n" +
                 "0 - List of projects; 1 - Invest in the project; 2 - Ask authors\n");
         assertPrinted(values, "Enter your question:\n");

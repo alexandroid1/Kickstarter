@@ -88,4 +88,19 @@ public class Project {
         this.amount -= amount;
     }
 
+    @Override
+    public String toString() {
+        return "Project{" +
+                "name='" + name + '\'' +
+                ", amount=" + amount +
+                ", days=" + days +
+                ", category=" + category +
+                ", description='" + description + '\'' +
+                ", exist=" + exist +
+                ", history='" + history + '\'' +
+                ", demoVideo='" + demoVideo + '\'' +
+                ", questionAnswers='" + questionAnswers + '\'' +
+                ", question='" + question + '\'' +
+                '}';
+    }
 }
