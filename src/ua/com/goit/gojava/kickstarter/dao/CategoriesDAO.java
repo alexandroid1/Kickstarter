@@ -66,16 +66,13 @@ public class CategoriesDAO implements Categories {
 
     @Override
     public List<Category> getCategories() {
-
         return connections.get(connection -> {
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec.
-
             List<Category> result = new LinkedList<>();
 
             ResultSet rs = statement
                     .executeQuery("select * from Categories");
-
             while (rs.next()) {
               result.add(new Category(rs.getInt("id"), rs.getString("name")));
             }
@@ -85,52 +82,40 @@ public class CategoriesDAO implements Categories {
 
     @Override
     public Category get(int index) {
-
         return connections.get(connection -> {
-
-            Category category = null;
-
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);
 
             ResultSet rs = statement
                     .executeQuery("select * from Categories WHERE id-1 = " + index);
-
             while (rs.next()) {
-                category = new Category(rs.getInt("id"), rs.getString("name"));
+                return new Category(rs.getInt("id"), rs.getString("name"));
             }
 
-            return category;
+            throw new RuntimeException("Category not found");
         });
     }
 
     @Override
     public int size() {
-
         return connections.get(connection -> {
-
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);
 
-            ResultSet rs = statement.executeQuery("select COUNT(*) AS total FROM Categories");
-
-            if (rs != null) {
-                return  rs.getInt("total");
-            } else {
-                throw new RuntimeException("during Execution the Query has appeared error: ");
-            }
+            ResultSet rs = statement.executeQuery("select COUNT(*) FROM Categories");
+            return  rs.getInt(1);
         });
     }
 
     @Override
-    public boolean exists(int id) {
-        List<Category> data = new LinkedList<>();
+    public boolean exists(final int id) {
+        return connections.get(connection -> {
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);
 
-        if (data.get(id) != null) {
-            return true;
-        } else {
-            return false;
-        }
+            ResultSet rs = statement.executeQuery("select id FROM Categories WHERE id = " + id);
+            return  rs.next();
+        });
     }
 
 }
