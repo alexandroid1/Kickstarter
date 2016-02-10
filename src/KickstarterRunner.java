@@ -1,5 +1,11 @@
 import ua.com.goit.gojava.kickstarter.*;
+import ua.com.goit.gojava.kickstarter.dao.CategoriesDAO;
+import ua.com.goit.gojava.kickstarter.dao.ConnectionPool;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.Random;
 
 /**
@@ -7,14 +13,33 @@ import java.util.Random;
  */
 public class KickstarterRunner {
         public static void main(String[] args) {
+
+            FileInputStream fis;
+            Properties properties = new Properties();
+
+            try {
+                fis = new FileInputStream("./resources/application.properties");
+                properties.load(fis);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            ConnectionPool connections = new ConnectionPool(properties);
+
+
             Category category1 = new Category("Photo");
             Category category2 = new Category("Video");
             Category category3 = new Category("Music");
 
-            Categories categories = new InMemoryCategories();
-            categories.add(category1);
-            categories.add(category2);
-            categories.add(category3);
+            //Categories categories = new InMemoryCategories(); // for in memory categories
+            CategoriesDAO categories = new CategoriesDAO(connections); // for DB categories
+
+
+         //   categories.add(category1); // for in memory categories
+         //   categories.add(category2);
+         //   categories.add(category3);
 
             Project project1 = new Project("film about java EE code",
                     100000,

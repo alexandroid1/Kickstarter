@@ -27,18 +27,18 @@ public class CategoriesDAO implements Categories {
     public static void main(String[] args) {
 
         FileInputStream fis;
-        Properties property = new Properties();
+        Properties properties = new Properties();
 
         try {
             fis = new FileInputStream("./resources/application.properties");
-            property.load(fis);
+            properties.load(fis);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        ConnectionPool connections = new ConnectionPool(property);
+        ConnectionPool connections = new ConnectionPool(properties);
         CategoriesDAO categoriesDAO = new CategoriesDAO(connections);
 
         Category category = categoriesDAO.get(1);
@@ -57,6 +57,7 @@ public class CategoriesDAO implements Categories {
             String insertTableSQL = "INSERT INTO Categories"
                     + "(name) VALUES"
                     + "(?)";
+
             PreparedStatement preparedStatement = connection.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, category.getName());
             preparedStatement.executeUpdate();

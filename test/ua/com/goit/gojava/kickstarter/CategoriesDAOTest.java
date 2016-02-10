@@ -29,19 +29,16 @@ public class CategoriesDAOTest extends CategoriesTest {
 
         connections = new ConnectionPool(properties);
         ConnectionPool connections = new ConnectionPool(properties);
-        CategoriesDAO categoriesDAO = new CategoriesDAO(connections);
 
-        connections.get(new ConnectionRunner<Void>() {
-            public Void run(Connection connection) throws SQLException {
-                Statement statement = connection.createStatement();
-                statement.setQueryTimeout(30);
-                statement
-                        .execute("CREATE TABLE Categories (" +
-                                "id INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE," +
-                                "name TEXT NOT NULL UNIQUE" +
-                                ");");
-                return null;
-            }
+        connections.get(connection -> {
+            Statement statement = connection.createStatement();
+            statement.setQueryTimeout(30);
+            statement
+                    .execute("CREATE TABLE Categories (" +
+                            "id INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE," +
+                            "name TEXT NOT NULL UNIQUE" +
+                            ");");
+            return null;
         });
 
         return new CategoriesDAO(connections);
