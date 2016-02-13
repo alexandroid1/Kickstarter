@@ -1,5 +1,6 @@
 package ua.com.goit.gojava.kickstarter.controller;
 
+import ua.com.goit.gojava.kickstarter.Category;
 import ua.com.goit.gojava.kickstarter.dao.CategoriesDAO;
 import ua.com.goit.gojava.kickstarter.dao.ConnectionPool;
 
@@ -10,11 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Map;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -25,20 +24,24 @@ public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        String requestURI = req.getRequestURI();
-        String action = requestURI.substring(req.getContextPath().length(), requestURI.length());
-        System.out.println(action);
+        String action = getAction(req);
+        ConnectionPool connections = getConnections(req);
 
-        if (action.equals("/categories")){
+        if (action.startsWith("/categories")) {
 
-            ConnectionPool connections = getConnections(req);
             CategoriesDAO categoriesDAO = new CategoriesDAO(connections);
+            List<Category> categories = categoriesDAO.getCategories();
 
+            resp.getOutputStream().println(categories.toString());
         } else if (action.equals("/projects")){
 
         }
-
         super.doGet(req, resp);
+    }
+
+    private String getAction(HttpServletRequest req) {
+        String requestURI = req.getRequestURI();
+        return requestURI.substring(req.getContextPath().length(), requestURI.length());
     }
 
     private ConnectionPool getConnections(HttpServletRequest req) {
@@ -60,7 +63,7 @@ public class MainServlet extends HttpServlet {
             try {
                 result = (ConnectionPool) DriverManager.getConnection(properties.getProperty("jdbc.url"), properties);
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
             req.getSession().setAttribute("connections",result);
         }
