@@ -2,7 +2,6 @@ package ua.com.goit.gojava.kickstarter.controller;
 
 import ua.com.goit.gojava.kickstarter.Category;
 import ua.com.goit.gojava.kickstarter.dao.CategoriesDAO;
-import ua.com.goit.gojava.kickstarter.dao.ConnectionPool;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
@@ -25,11 +25,11 @@ public class MainServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String action = getAction(req);
-        ConnectionPool connections = getConnections(req);
+        Connection connection = getConnection(req);
 
         if (action.startsWith("/categories")) {
 
-            CategoriesDAO categoriesDAO = new CategoriesDAO(connections);
+            CategoriesDAO categoriesDAO = new CategoriesDAO(connection);
             List<Category> categories = categoriesDAO.getCategories();
 
             resp.getOutputStream().println(categories.toString());
@@ -44,8 +44,8 @@ public class MainServlet extends HttpServlet {
         return requestURI.substring(req.getContextPath().length(), requestURI.length());
     }
 
-    private ConnectionPool getConnections(HttpServletRequest req) {
-        ConnectionPool result = (ConnectionPool) req.getSession().getAttribute("connections");
+    private Connection getConnection(HttpServletRequest req) {
+        Connection result = (Connection) req.getSession().getAttribute("connection");
         if (result == null) {
 
             FileInputStream fis;
@@ -61,11 +61,11 @@ public class MainServlet extends HttpServlet {
             }
 
             try {
-                result = (ConnectionPool) DriverManager.getConnection(properties.getProperty("jdbc.url"), properties);
+                result = DriverManager.getConnection(properties.getProperty("jdbc.url"), properties);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            req.getSession().setAttribute("connections",result);
+            req.getSession().setAttribute("connection", result);
         }
         return result;
     }

@@ -3,10 +3,10 @@ package ua.com.goit.gojava.kickstarter;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
+import java.sql.SQLException;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by alex on 10.01.16.
@@ -16,11 +16,11 @@ public abstract class CategoriesTest {
     private Categories list;
 
     @Before
-    public void setup() {
+    public void setup() throws SQLException {
         list = getCategories();
     }
 
-    abstract Categories getCategories();
+    abstract Categories getCategories() throws SQLException;
 
     @Test
     public void shouldCategoriesList_whenAddCategories() {

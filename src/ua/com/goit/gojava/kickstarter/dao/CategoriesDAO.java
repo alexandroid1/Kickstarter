@@ -3,24 +3,28 @@ package ua.com.goit.gojava.kickstarter.dao;
 import ua.com.goit.gojava.kickstarter.Categories;
 import ua.com.goit.gojava.kickstarter.Category;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.sql.*;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Created by alex on 27.01.16.
  */
 public class CategoriesDAO implements Categories {
 
-    private ConnectionPool connections;
+    private /*static*/ Connection connection;
 
-    public CategoriesDAO(ConnectionPool connections) {
-        this.connections = connections;
+    public CategoriesDAO(Connection connection) {
+        this.connection = connection;
+    }
+
+ /*   static {
+        // load the sqlite-JDBC driver using the current class loader
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("something wrong with downloading drivers: ", e);
+        }
     }
 
     // for testing
@@ -38,8 +42,16 @@ public class CategoriesDAO implements Categories {
             e.printStackTrace();
         }
 
-        ConnectionPool connections = new ConnectionPool(properties);
-        CategoriesDAO categoriesDAO = new CategoriesDAO(connections);
+        try {
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection(properties.getProperty("jdbc.url"), properties);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        CategoriesDAO categoriesDAO = new CategoriesDAO(connection);
 
         Category category = categoriesDAO.get(1);
         categoriesDAO.add(new Category("CategoryName3"));
@@ -49,27 +61,29 @@ public class CategoriesDAO implements Categories {
         System.out.println("category.toString() = " + category.toString());
         System.out.println("categoriesDAO.size() = " + categoriesDAO.size());
         System.out.println("list.toString() =  " + list.toString());
-    }
+    }*/
 
     @Override
     public void add(final Category category) {
-        connections.get(connection -> {
             String insertTableSQL = "INSERT INTO Categories"
                     + "(name) VALUES"
                     + "(?)";
-
-            PreparedStatement preparedStatement = connection.prepareStatement(insertTableSQL);
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(insertTableSQL);
             preparedStatement.setString(1, category.getName());
             preparedStatement.executeUpdate();
-            return null;
-        });
+        } catch (SQLException e) {
+            throw new RuntimeException("something wrong with getting connection: ", e);
+        }
+
     }
 
     @Override
     public List<Category> getCategories() {
-        return connections.get(connection -> {
+        try {
             Statement statement = connection.createStatement();
-            statement.setQueryTimeout(30);  // set timeout to 30 sec.
+            statement.setQueryTimeout(30);
             List<Category> result = new LinkedList<>();
 
             ResultSet rs = statement
@@ -78,12 +92,14 @@ public class CategoriesDAO implements Categories {
               result.add(new Category(rs.getInt("id"), rs.getString("name")));
             }
             return result;
-        });
+        } catch (SQLException e) {
+            throw new RuntimeException("something wrong with getting connection: ", e);
+        }
     }
 
     @Override
     public Category get(int index) {
-        return connections.get(connection -> {
+        try {
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);
 
@@ -94,29 +110,35 @@ public class CategoriesDAO implements Categories {
             }
 
             throw new RuntimeException("Category not found");
-        });
+        } catch (SQLException e) {
+            throw new RuntimeException("something wrong with getting connection: ", e);
+        }
     }
 
     @Override
     public int size() {
-        return connections.get(connection -> {
+        try {
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);
 
             ResultSet rs = statement.executeQuery("select COUNT(*) FROM Categories");
             return  rs.getInt(1);
-        });
+        } catch (SQLException e) {
+            throw new RuntimeException("something wrong with getting connection: ", e);
+        }
     }
 
     @Override
     public boolean exists(final int id) {
-        return connections.get(connection -> {
+        try {
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);
 
             ResultSet rs = statement.executeQuery("select id FROM Categories WHERE id = " + id);
             return  rs.next();
-        });
+        } catch (SQLException e) {
+            throw new RuntimeException("something wrong with getting connection: ", e);
+        }
     }
 
 }

@@ -1,17 +1,13 @@
 package ua.com.goit.gojava.kickstarter;
 
 import org.junit.After;
-import ua.com.goit.gojava.kickstarter.Categories;
-import ua.com.goit.gojava.kickstarter.CategoriesTest;
 import ua.com.goit.gojava.kickstarter.dao.CategoriesDAO;
-import ua.com.goit.gojava.kickstarter.dao.ConnectionPool;
-import ua.com.goit.gojava.kickstarter.dao.ConnectionRunner;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 /**
@@ -19,34 +15,41 @@ import java.util.Properties;
  */
 public class CategoriesDAOTest extends CategoriesTest {
 
-    private ConnectionPool connections;
+    private Connection connection;
 
     @Override
-    Categories getCategories() {
+    Categories getCategories() throws SQLException {
         Properties properties = new Properties();
-        properties.put("jdbc.driverClassName","org.sqlite.JDBC");
         properties.put("jdbc.url","jdbc:sqlite:./bin/test-database.db");
 
-        connections = new ConnectionPool(properties);
-        ConnectionPool connections = new ConnectionPool(properties);
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
-        connections.get(connection -> {
-            Statement statement = connection.createStatement();
+        connection = DriverManager.getConnection(properties.getProperty("jdbc.url"), properties);
+
+
+        Statement statement = null;
+        try {
+            statement = connection.createStatement();
             statement.setQueryTimeout(30);
             statement
                     .execute("CREATE TABLE Categories (" +
                             "id INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE," +
                             "name TEXT NOT NULL UNIQUE" +
                             ");");
-            return null;
-        });
+        } catch (SQLException e) {
+            throw new RuntimeException("something wrong with getting connection: ", e);
+        }
 
-        return new CategoriesDAO(connections);
+        return new CategoriesDAO(connection);
     }
 
     @After
-    public void cleanUp(){
-        connections.close();
+    public void cleanUp() throws SQLException {
+        connection.close();
         new File("./bin/test-database.db").delete();
     }
 
