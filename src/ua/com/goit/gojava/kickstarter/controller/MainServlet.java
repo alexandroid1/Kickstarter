@@ -21,6 +21,15 @@ import java.util.Properties;
  */
 public class MainServlet extends HttpServlet {
 
+    static {
+        // load the sqlite-JDBC driver using the current class loader
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("something wrong with downloading drivers: ", e);
+        }
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -55,9 +64,9 @@ public class MainServlet extends HttpServlet {
                 fis = new FileInputStream("./resources/application.properties");
                 properties.load(fis);
             } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
 
             try {
