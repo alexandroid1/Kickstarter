@@ -7,14 +7,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * Created by alex on 10.02.16.
@@ -57,7 +54,7 @@ public class MainServlet extends HttpServlet {
         Connection result = (Connection) req.getSession().getAttribute("connection");
         if (result == null) {
 
-            FileInputStream fis;
+/*            FileInputStream fis;
             Properties properties = new Properties();
 
             try {
@@ -67,10 +64,10 @@ public class MainServlet extends HttpServlet {
                 throw new RuntimeException(e);
             } catch (IOException e) {
                 throw new RuntimeException(e);
-            }
+            }*/
 
             try {
-                result = DriverManager.getConnection(properties.getProperty("jdbc.url"), properties);
+                result = DriverManager.getConnection("jdbc:sqlite:./resources/database.db");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
