@@ -28,7 +28,8 @@ public class MainServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
 
         String action = getAction(req);
         Connection connection = getConnection(req);
@@ -67,7 +68,14 @@ public class MainServlet extends HttpServlet {
             }*/
 
             try {
-                result = DriverManager.getConnection("jdbc:sqlite:./resources/database.db");
+                result = DriverManager.getConnection(
+                        "jdbc:sqlite:\\home\\alex\\Документы\\GoIT\\Kickstarter\\resources\\database.db");
+
+                /*result = DriverManager.getConnection(
+                        "jdbc:sqlite:resources/database.db");*/
+
+/*                result = DriverManager.getConnection(
+                        "jdbc:sqlite:/home/alex/Документы/GoIT/Kickstarter/resources/database.db");*/
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -77,7 +85,8 @@ public class MainServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         System.out.println(req.getParameterMap().toString());
         super.doPost(req, resp);
     }
