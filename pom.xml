@@ -7,26 +7,7 @@
     <groupId>ua.com.goit.gojava.kickstarter</groupId>
     <artifactId>kickstarter-core</artifactId>
     <version>1.0-SNAPSHOT</version>
-
-    <build>
-
-        <outputDirectory>out</outputDirectory>
-        <finalName>kickstarter</finalName>
-        <sourceDirectory>src</sourceDirectory>
-
-        <resources>
-            <resource>
-                <directory>resources</directory>
-                <includes>
-                    <include>**/*.properties</include>
-                    <include>**/*.db</include>
-                    <include>**/*.xml</include>
-                </includes>
-            </resource>
-        </resources>
-
-    </build>
-
+    
     <properties>
         <mockito.version>1.10.19</mockito.version>
         <servlet-api.version>2.5</servlet-api.version>
