@@ -7,7 +7,7 @@
     <groupId>ua.com.goit.gojava.kickstarter</groupId>
     <artifactId>kickstarter-core</artifactId>
     <version>1.0-SNAPSHOT</version>
-    
+
     <properties>
         <mockito.version>1.10.19</mockito.version>
         <servlet-api.version>2.5</servlet-api.version>
@@ -40,7 +40,6 @@
             <artifactId>jstl</artifactId>
             <version>${Jstl.version}</version>
         </dependency>
-
 
     </dependencies>
 

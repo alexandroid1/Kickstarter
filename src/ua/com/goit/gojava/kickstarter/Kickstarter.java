@@ -1,7 +1,5 @@
 package ua.com.goit.gojava.kickstarter;
 
-import java.util.Arrays;
-
 /**
  * Created by alex on 25.12.15.
  */
@@ -49,7 +47,7 @@ public class Kickstarter {
         };
     }
 
-    private Menu projectsMenu(Project[] found) {
+    private Menu projectsMenu(final Project[] found) {
         return new Menu(io) {
             @Override
             Menu nextMenu(Object selected) {

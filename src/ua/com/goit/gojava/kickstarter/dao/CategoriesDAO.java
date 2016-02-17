@@ -84,7 +84,7 @@ public class CategoriesDAO implements Categories {
         try {
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);
-            List<Category> result = new LinkedList<>();
+            List<Category> result = new LinkedList<Category>();
 
             ResultSet rs = statement
                     .executeQuery("select * from Categories");

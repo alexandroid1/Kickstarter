@@ -40,6 +40,7 @@ public class MainServlet extends HttpServlet {
             List<Category> categories = categoriesDAO.getCategories();
 
             resp.getOutputStream().println(categories.toString());
+
         } else if (action.equals("/projects")){
 
         }
@@ -52,6 +53,18 @@ public class MainServlet extends HttpServlet {
     }
 
     private Connection getConnection(HttpServletRequest req) {
+
+
+ /*       Context envContext  = null;
+        try {
+            Context initContext = new InitialContext();
+            envContext = (Context) initContext.lookup("java:/comp/env");
+            DataSource ds = (DataSource) envContext.lookup("jdbc/myDS");
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }*/
+
+
         Connection result = (Connection) req.getSession().getAttribute("connection");
         if (result == null) {
 

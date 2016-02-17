@@ -43,7 +43,7 @@ public class InFileCategories implements Categories {
         try {
             in = new BufferedReader(new FileReader(file));
 
-            List<Category> result = new LinkedList<>();
+            List<Category> result = new LinkedList<Category>();
 
             String line = in.readLine();
             int index = 1;
@@ -134,7 +134,7 @@ public class InFileCategories implements Categories {
     @Override
     public boolean exists(int id) {
 
-        List<Category> data = new LinkedList<>();
+        List<Category> data = new LinkedList<Category>();
 
         if (data.get(id) != null) {
             return true;

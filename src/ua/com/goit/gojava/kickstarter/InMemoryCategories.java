@@ -8,7 +8,7 @@ import java.util.List;
  */
 public class InMemoryCategories implements Categories {
 
-    private List<Category> data = new LinkedList<>();
+    private List<Category> data = new LinkedList<Category>();
 
     @Override
     public void add(Category category) {
@@ -17,7 +17,7 @@ public class InMemoryCategories implements Categories {
 
     @Override
     public List<Category> getCategories(){
-        List<Category> result = new LinkedList<>();
+        List<Category> result = new LinkedList<Category>();
         for (int index=0; index<data.size(); index ++){
             result.add(new Category(index+1, data.get(index).getName()));
         }
