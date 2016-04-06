@@ -82,7 +82,7 @@ public class MainServlet extends HttpServlet {
 
             try {
                 result = DriverManager.getConnection(
-                        "jdbc:sqlite:\\home\\alex\\Документы\\GoIT\\Kickstarter\\resources\\database.db");
+                        "jdbc:sqlite:D:\\java\\projects\\Kickstarter\\resources\\database.db");
 
                 /*result = DriverManager.getConnection(
                         "jdbc:sqlite:resources/database.db");*/

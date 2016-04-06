@@ -20,7 +20,7 @@ public class CategoriesDAOTest extends CategoriesTest {
     @Override
     Categories getCategories() throws SQLException {
         Properties properties = new Properties();
-        properties.put("jdbc.url","jdbc:sqlite:./bin/test-database.db");
+        properties.put("jdbc.url","jdbc:sqlite:D:\\java\\projects\\Kickstarter\\resources\\test-database.db");
 
         try {
             Class.forName("org.sqlite.JDBC");
@@ -50,7 +50,7 @@ public class CategoriesDAOTest extends CategoriesTest {
     @After
     public void cleanUp() throws SQLException {
         connection.close();
-        new File("./bin/test-database.db").delete();
+        new File("D:\\java\\projects\\Kickstarter\\resources\\test-database.db").delete();
     }
 
 }
