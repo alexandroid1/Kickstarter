@@ -12,56 +12,11 @@ import java.util.List;
  */
 public class CategoriesDAO implements Categories {
 
-    private /*static*/ Connection connection;
+    private Connection connection;
 
     public CategoriesDAO(Connection connection) {
         this.connection = connection;
     }
-
- /*   static {
-        // load the sqlite-JDBC driver using the current class loader
-        try {
-            Class.forName("org.sqlite.JDBC");
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("something wrong with downloading drivers: ", e);
-        }
-    }
-
-    // for testing
-    public static void main(String[] args) {
-
-        FileInputStream fis;
-        Properties properties = new Properties();
-
-        try {
-            fis = new FileInputStream("./resources/application.properties");
-            properties.load(fis);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection(properties.getProperty("jdbc.url"), properties);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        CategoriesDAO categoriesDAO = new CategoriesDAO(connection);
-
-        Category category = categoriesDAO.get(1);
-        categoriesDAO.add(new Category("CategoryName3"));
-        List<Category> list = categoriesDAO.getCategories();
-
-
-        System.out.println("category.toString() = " + category.toString());
-        System.out.println("categoriesDAO.size() = " + categoriesDAO.size());
-        System.out.println("list.toString() =  " + list.toString());
-    }*/
 
     @Override
     public void add(final Category category) {

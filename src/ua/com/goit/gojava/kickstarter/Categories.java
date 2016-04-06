@@ -6,6 +6,7 @@ import java.util.List;
  * Created by alex on 21.01.16.
  */
 public interface Categories {
+
     void add(Category category);
 
     List<Category> getCategories();
