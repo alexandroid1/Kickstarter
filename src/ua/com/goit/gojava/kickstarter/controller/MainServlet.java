@@ -25,8 +25,14 @@ public class MainServlet extends HttpServlet {
 
         String requestURI = req.getRequestURI();
         String action = req.getRequestURI().substring(req.getContextPath().length(), requestURI.length()); //   /categories
-
         System.out.println(action);
+
+        if (action.equals("/categories")){
+
+        } else if (action.equals("/projects")) {
+
+        }
+
     }
 
     @Override
