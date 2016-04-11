@@ -28,11 +28,29 @@ public class MainServlet extends HttpServlet {
         System.out.println(action);
 
         if (action.equals("/categories")){
+            Connection connection = getConnection(req);
 
+            CategoriesDAO categoriesDAO = new CategoriesDAO(connection);
+            List<Category> categories = categoriesDAO.getCategories();
+
+            resp.getOutputStream().println(categories.toString());
         } else if (action.equals("/projects")) {
 
         }
 
+    }
+
+    private Connection getConnection(HttpServletRequest req) {
+        Connection result = (Connection) req.getSession().getAttribute("connection");
+        if (result == null){
+            try {
+                result = DriverManager.getConnection("jdbc:sqlite:./resources/database.db");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            req.getSession().setAttribute("connection",result);
+        }
+        return result;
     }
 
     @Override
