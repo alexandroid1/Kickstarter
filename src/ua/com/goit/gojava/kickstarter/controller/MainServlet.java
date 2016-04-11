@@ -21,12 +21,10 @@ public class MainServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //System.out.println(req.getRequestURI());  //   /sample/categories
-
         String action = getAction(req); //   /categories
+        Connection connection = getConnection(req);
 
-        if (action.equals("/categories")){
-            Connection connection = getConnection(req);
+        if (action.startsWith("/categories")){
 
             CategoriesDAO categoriesDAO = new CategoriesDAO(connection);
             List<Category> categories = categoriesDAO.getCategories();
