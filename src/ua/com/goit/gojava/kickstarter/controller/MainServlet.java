@@ -24,7 +24,7 @@ public class MainServlet extends HttpServlet {
         //System.out.println(req.getRequestURI());  //   /sample/categories
 
         String requestURI = req.getRequestURI();
-        String action = req.getRequestURI().substring(req.getContextPath().length(), requestURI.length()); //  /categories
+        String action = req.getRequestURI().substring(req.getContextPath().length(), requestURI.length()); //   /categories
 
         System.out.println(action);
     }
