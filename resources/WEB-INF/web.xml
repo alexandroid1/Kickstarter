@@ -5,9 +5,7 @@
 		  http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
 
-    <display-name>kickstarter</display-name>
-
-    <description>a basic application.</description>
+    <display-name>Kickstarter</display-name>
 
     <servlet>
         <servlet-name>MainServlet</servlet-name>
@@ -16,7 +14,7 @@
 
     <servlet-mapping>
         <servlet-name>MainServlet</servlet-name>
-        <url-pattern>/kickstarter</url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
 </web-app>
