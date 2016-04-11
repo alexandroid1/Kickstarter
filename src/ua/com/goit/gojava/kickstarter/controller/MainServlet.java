@@ -23,9 +23,7 @@ public class MainServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //System.out.println(req.getRequestURI());  //   /sample/categories
 
-        String requestURI = req.getRequestURI();
-        String action = req.getRequestURI().substring(req.getContextPath().length(), requestURI.length()); //   /categories
-        System.out.println(action);
+        String action = getAction(req); //   /categories
 
         if (action.equals("/categories")){
             Connection connection = getConnection(req);
@@ -38,6 +36,11 @@ public class MainServlet extends HttpServlet {
 
         }
 
+    }
+
+    private String getAction(HttpServletRequest req) {
+        String requestURI = req.getRequestURI();
+        return requestURI.substring(req.getContextPath().length(), requestURI.length());
     }
 
     private Connection getConnection(HttpServletRequest req) {
