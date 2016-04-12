@@ -12,12 +12,20 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by alex on 10.02.16.
  */
 public class MainServlet extends HttpServlet {
+
+    static {
+        // load the sqlite-JDBC driver using the current class loader
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("something wrong with downloading drivers: ", e);
+        }
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,7 +41,6 @@ public class MainServlet extends HttpServlet {
         } else if (action.equals("/projects")) {
 
         }
-
     }
 
     private String getAction(HttpServletRequest req) {
@@ -45,9 +52,9 @@ public class MainServlet extends HttpServlet {
         Connection result = (Connection) req.getSession().getAttribute("connection");
         if (result == null){
             try {
-                result = DriverManager.getConnection("jdbc:sqlite:./resources/database.db");
+                result = DriverManager.getConnection("jdbc:sqlite:D:\\java\\projects\\Kickstarter\\resources\\database.db");
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
             req.getSession().setAttribute("connection",result);
         }
