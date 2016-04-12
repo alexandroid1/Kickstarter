@@ -37,6 +37,9 @@ public class MainServlet extends HttpServlet {
             CategoriesDAO categoriesDAO = new CategoriesDAO(connection);
             List<Category> categories = categoriesDAO.getCategories();
 
+            req.setAttribute("categories", categories);
+            req.getRequestDispatcher("categories.jsp").forward(req, resp);
+
             resp.getOutputStream().println(categories.toString());
         } else if (action.equals("/projects")) {
 
