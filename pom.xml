@@ -13,6 +13,7 @@
         <servlet-api.version>2.5</servlet-api.version>
         <sqlite-jdbc.version>3.8.11.2</sqlite-jdbc.version>
         <Jstl.version>1.2</Jstl.version>
+        <taglibs.version>1.1.2</taglibs.version>
     </properties>
 
     <dependencies>
@@ -39,6 +40,12 @@
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
             <version>${Jstl.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>${taglibs.version}</version>
         </dependency>
 
     </dependencies>
