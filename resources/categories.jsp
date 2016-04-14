@@ -4,7 +4,7 @@
     <title>Kickstarter</title>
 </head>
 <body>
-    <c:forEach var="i" begin="1" end="5">
+    <c:forEach var="i" items="${categories}">
         Item <c:out value="${i}"/><p>
     </c:forEach>
 </body>
