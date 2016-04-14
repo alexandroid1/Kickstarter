@@ -38,6 +38,8 @@ public class MainServlet extends HttpServlet {
             List<Category> categories = categoriesDAO.getCategories();
 
             req.setAttribute("categories", categories);
+            req.setAttribute("message", "Hello JSP!");
+
             req.getRequestDispatcher("categories.jsp").forward(req, resp);
 
         } else if (action.equals("/projects")) {
