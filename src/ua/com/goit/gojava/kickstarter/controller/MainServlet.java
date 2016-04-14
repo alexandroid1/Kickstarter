@@ -40,7 +40,6 @@ public class MainServlet extends HttpServlet {
             req.setAttribute("categories", categories);
             req.getRequestDispatcher("categories.jsp").forward(req, resp);
 
-            resp.getOutputStream().println(categories.toString());
         } else if (action.equals("/projects")) {
 
         }
