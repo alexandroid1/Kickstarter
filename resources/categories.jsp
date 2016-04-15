@@ -4,12 +4,9 @@
     <title>Kickstarter</title>
 </head>
 <body>
-<%--    <c:forEach var="i" items="${categories}">
-        Item <c:out value="${i}"/><p>
-    </c:forEach>--%>
-
-    <c:out value="${message}"/>
-
+    <c:forEach var="category" items="${requestScope.categories}" >
+        <c:out value="${category.name}"/><p>
+    </c:forEach>
 
 </body>
 </html>
