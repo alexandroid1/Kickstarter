@@ -8,5 +8,6 @@
         <c:out value="${category.name}"/><p>
     </c:forEach>
 
+
 </body>
 </html>
