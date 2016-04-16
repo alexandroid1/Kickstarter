@@ -10,5 +10,7 @@
 </body>
 </html>
 
+
+
 <%--  <a href="/sample/projects?category=${category.id}"><c:out value="${category.name}"/></a>--%>
 <%--<c:out value="${category.name}"/>--%>
