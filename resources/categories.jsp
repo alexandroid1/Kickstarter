@@ -4,10 +4,11 @@
     <title>Kickstarter</title>
 </head>
 <body>
-    <c:forEach var="category" items="${requestScope.categories}" >
-        <c:out value="${category.name}"/><p>
+    <c:forEach items="${requestScope.categories}" var="category" >
+        <c:out value="${category.name}"/>
     </c:forEach>
-
-
 </body>
 </html>
+
+<%--  <a href="/sample/projects?category=${category.id}"><c:out value="${category.name}"/></a>--%>
+<%--<c:out value="${category.name}"/>--%>
